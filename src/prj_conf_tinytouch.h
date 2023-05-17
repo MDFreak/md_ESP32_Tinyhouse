@@ -1,9 +1,9 @@
-#ifndef _PRJ_CONF_TOUCHTEST_1_H_
-  #define _PRJ_CONF_TOUCHTEST_1_H_
+#ifndef _PRJ_CONF_TINYTOUCH_H_
+  #define _PRJ_CONF_TINYTOUCH_H_
 
   #include <Arduino.h>
   #include <md_defines.h>
-  #include <prj_esp32_test2.h>
+  #include <prj_tinyhouse.h>
 
   // ******************************************
     // --- test features --------------------------------
@@ -1578,4 +1578,4 @@
             #endif
       #endif
     // ******************************************
-#endif // _PRJ_CONF_TOUCHTEST_1_H_
+#endif // _PRJ_CONF_TINYTOUCH_H_

@@ -914,7 +914,7 @@ Usage:
 
 ## Using filters
 Filters can be set to `Rewrite` or `Handler` in order to control when to apply the rewrite and consider the handler.
-A filter is a callback function that evaluates the request and return a boolean `true` to include the it
+A filter is a callback function that evaluates the request and return a boolean `true` to include the item
 or `false` to exclude it.
 Two filter callback are provided for convince:
 * `ON_STA_FILTER` - return true when requests are made to the STA (station mode) interface.
@@ -1106,7 +1106,7 @@ client->binary(flash_binary, 4);
 ```
 
 ### Direct access to web socket message buffer
-When sending a web socket message using the above methods a buffer is created.  Under certain circumstances you might want to manipulate or populate this buffer directly from your application, for example to prevent unnecessary duplications of the data.  This example below shows how to create a buffer and print data to it from an ArduinoJson object then send it.
+When sending a web socket message using the above methods a buffer is created.  Under certain circumstances you might want to manipulate or populate this buffer directly from your application, for example to prevent unnecessary duplications of the data.  This example below shows how to create a buffer and print data to it from an ArduinoJson object then send it.   
 
 ```cpp
 void sendDataWs(AsyncWebSocketClient * client)
@@ -1448,7 +1448,7 @@ Example of OTA code
     // Clean SPIFFS
     SPIFFS.end();
 
-    // Disable client connections
+    // Disable client connections    
     ws.enable(false);
 
     // Advertise connected clients what's going on
@@ -1463,7 +1463,7 @@ Example of OTA code
 
 ### Adding Default Headers
 
-In some cases, such as when working with CORS, or with some sort of custom authentication system,
+In some cases, such as when working with CORS, or with some sort of custom authentication system, 
 you might need to define a header that should get added to all responses (including static, websocket and EventSource).
 The DefaultHeaders singleton allows you to do this.
 
@@ -1490,7 +1490,7 @@ webServer.onNotFound([](AsyncWebServerRequest *request) {
 
 ### Path variable
 
-With path variable you can create a custom regex rule for a specific parameter in a route.
+With path variable you can create a custom regex rule for a specific parameter in a route. 
 For example we want a `sensorId` parameter in a route rule to match only a integer.
 
 ```cpp
@@ -1517,7 +1517,7 @@ Add/Update the following line:
 For platformio modify `platformio.ini`:
 ```ini
 [env:myboard]
-build_flags =
+build_flags = 
   -DASYNCWEBSERVER_REGEX
 ```
 *NOTE*: By enabling `ASYNCWEBSERVER_REGEX`, `<regex>` will be included. This will add an 100k to your binary.

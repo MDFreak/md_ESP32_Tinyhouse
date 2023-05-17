@@ -122,48 +122,48 @@ tcp_ssl_t * tcp_ssl_new(struct tcp_pcb *tcp) {
     tcp_ssl_next_fd = 0;//overflow
   }
 
-  tcp_ssl_t * new_it = (tcp_ssl_t*)malloc(sizeof(tcp_ssl_t));
-  if(!new_it){
+  tcp_ssl_t * new_item = (tcp_ssl_t*)malloc(sizeof(tcp_ssl_t));
+  if(!new_item){
     TCP_SSL_DEBUG("tcp_ssl_new: failed to allocate tcp_ssl\n");
     return NULL;
   }
 
-  new_it->tcp = tcp;
-  new_it->handshake = SSL_NOT_OK;
-  new_it->arg = NULL;
-  new_it->on_data = NULL;
-  new_it->on_handshake = NULL;
-  new_it->on_error = NULL;
-  new_it->tcp_pbuf = NULL;
-  new_it->pbuf_offset = 0;
-  new_it->next = NULL;
-  new_it->ssl_ctx = NULL;
-  new_it->ssl = NULL;
-  new_it->type = TCP_SSL_TYPE_CLIENT;
-  new_it->fd = tcp_ssl_next_fd++;
+  new_item->tcp = tcp;
+  new_item->handshake = SSL_NOT_OK;
+  new_item->arg = NULL;
+  new_item->on_data = NULL;
+  new_item->on_handshake = NULL;
+  new_item->on_error = NULL;
+  new_item->tcp_pbuf = NULL;
+  new_item->pbuf_offset = 0;
+  new_item->next = NULL;
+  new_item->ssl_ctx = NULL;
+  new_item->ssl = NULL;
+  new_item->type = TCP_SSL_TYPE_CLIENT;
+  new_item->fd = tcp_ssl_next_fd++;
 
   if(tcp_ssl_array == NULL){
-    tcp_ssl_array = new_it;
+    tcp_ssl_array = new_item;
   } else {
-    tcp_ssl_t * it = tcp_ssl_array;
-    while(it->next != NULL)
-      it = it->next;
-    it->next = new_it;
+    tcp_ssl_t * item = tcp_ssl_array;
+    while(item->next != NULL)
+      item = item->next;
+    item->next = new_item;
   }
 
-  TCP_SSL_DEBUG("tcp_ssl_new: %d\n", new_it->fd);
-  return new_it;
+  TCP_SSL_DEBUG("tcp_ssl_new: %d\n", new_item->fd);
+  return new_item;
 }
 
 tcp_ssl_t* tcp_ssl_get(struct tcp_pcb *tcp) {
   if(tcp == NULL) {
     return NULL;
   }
-  tcp_ssl_t * it = tcp_ssl_array;
-  while(it && it->tcp != tcp){
-    it = it->next;
+  tcp_ssl_t * item = tcp_ssl_array;
+  while(item && item->tcp != tcp){
+    item = item->next;
   }
-  return it;
+  return item;
 }
 
 int tcp_ssl_new_client(struct tcp_pcb *tcp){
@@ -244,33 +244,33 @@ int tcp_ssl_free(struct tcp_pcb *tcp) {
     return -1;
   }
 
-  tcp_ssl_t * it = tcp_ssl_array;
+  tcp_ssl_t * item = tcp_ssl_array;
 
-  if(it->tcp == tcp){
+  if(item->tcp == tcp){
     tcp_ssl_array = tcp_ssl_array->next;
-    if(it->tcp_pbuf != NULL){
-      pbuf_free(it->tcp_pbuf);
+    if(item->tcp_pbuf != NULL){
+      pbuf_free(item->tcp_pbuf);
     }
-    TCP_SSL_DEBUG("tcp_ssl_free: %d\n", it->fd);
-    if(it->ssl)
-      ssl_free(it->ssl);
-    if(it->type == TCP_SSL_TYPE_CLIENT && it->ssl_ctx)
-      ssl_ctx_free(it->ssl_ctx);
-    if(it->type == TCP_SSL_TYPE_SERVER)
+    TCP_SSL_DEBUG("tcp_ssl_free: %d\n", item->fd);
+    if(item->ssl)
+      ssl_free(item->ssl);
+    if(item->type == TCP_SSL_TYPE_CLIENT && item->ssl_ctx)
+      ssl_ctx_free(item->ssl_ctx);
+    if(item->type == TCP_SSL_TYPE_SERVER)
       _tcp_ssl_has_client = 0;
-    free(it);
+    free(item);
     return 0;
   }
 
-  while(it->next && it->next->tcp != tcp)
-    it = it->next;
+  while(item->next && item->next->tcp != tcp)
+    item = item->next;
 
-  if(it->next == NULL){
-    return ERR_TCP_SSL_INVALID_CLIENTFD_DATA;//it not found
+  if(item->next == NULL){
+    return ERR_TCP_SSL_INVALID_CLIENTFD_DATA;//item not found
   }
 
-  tcp_ssl_t * i = it->next;
-  it->next = i->next;
+  tcp_ssl_t * i = item->next;
+  item->next = i->next;
   if(i->tcp_pbuf != NULL){
     pbuf_free(i->tcp_pbuf);
   }
@@ -459,30 +459,30 @@ int tcp_ssl_is_server(struct tcp_pcb *tcp){
 }
 
 void tcp_ssl_arg(struct tcp_pcb *tcp, void * arg){
-  tcp_ssl_t * it = tcp_ssl_get(tcp);
-  if(it) {
-    it->arg = arg;
+  tcp_ssl_t * item = tcp_ssl_get(tcp);
+  if(item) {
+    item->arg = arg;
   }
 }
 
 void tcp_ssl_data(struct tcp_pcb *tcp, tcp_ssl_data_cb_t arg){
-  tcp_ssl_t * it = tcp_ssl_get(tcp);
-  if(it) {
-    it->on_data = arg;
+  tcp_ssl_t * item = tcp_ssl_get(tcp);
+  if(item) {
+    item->on_data = arg;
   }
 }
 
 void tcp_ssl_handshake(struct tcp_pcb *tcp, tcp_ssl_handshake_cb_t arg){
-  tcp_ssl_t * it = tcp_ssl_get(tcp);
-  if(it) {
-    it->on_handshake = arg;
+  tcp_ssl_t * item = tcp_ssl_get(tcp);
+  if(item) {
+    item->on_handshake = arg;
   }
 }
 
 void tcp_ssl_err(struct tcp_pcb *tcp, tcp_ssl_error_cb_t arg){
-  tcp_ssl_t * it = tcp_ssl_get(tcp);
-  if(it) {
-    it->on_error = arg;
+  tcp_ssl_t * item = tcp_ssl_get(tcp);
+  if(item) {
+    item->on_error = arg;
   }
 }
 
@@ -504,11 +504,11 @@ int ax_get_file(const char *filename, uint8_t **buf) {
 }
 
 tcp_ssl_t* tcp_ssl_get_by_fd(int fd) {
-  tcp_ssl_t * it = tcp_ssl_array;
-  while(it && it->fd != fd){
-    it = it->next;
+  tcp_ssl_t * item = tcp_ssl_array;
+  while(item && item->fd != fd){
+    item = item->next;
   }
-  return it;
+  return item;
 }
 /*
  * The LWIP tcp raw version of the SOCKET_WRITE(A, B, C)

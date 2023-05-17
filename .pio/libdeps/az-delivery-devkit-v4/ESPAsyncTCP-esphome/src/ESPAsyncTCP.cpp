@@ -1233,8 +1233,8 @@ err_t AsyncServer::_accept(tcp_pcb* pcb, err_t err){
 #if ASYNC_TCP_SSL_ENABLED
     if(_ssl_ctx){
       if(tcp_ssl_has_client() || _pending){
-        struct pending_pcb * new_it = (struct pending_pcb*)malloc(sizeof(struct pending_pcb));
-        if(!new_it){
+        struct pending_pcb * new_item = (struct pending_pcb*)malloc(sizeof(struct pending_pcb));
+        if(!new_item){
           ASYNC_TCP_DEBUG("### malloc new pending failed!\n");
           if(tcp_close(pcb) != ERR_OK){
             tcp_abort(pcb);
@@ -1243,21 +1243,21 @@ err_t AsyncServer::_accept(tcp_pcb* pcb, err_t err){
           return ERR_OK;
         }
         //1 ASYNC_TCP_DEBUG("### put to wait: %d\n", _clients_waiting);
-        new_it->pcb = pcb;
-        new_it->pb = NULL;
-        new_it->next = NULL;
+        new_item->pcb = pcb;
+        new_item->pb = NULL;
+        new_item->next = NULL;
         tcp_setprio(_pcb, TCP_PRIO_MIN);
         tcp_arg(pcb, this);
         tcp_poll(pcb, &_s_poll, 1);
         tcp_recv(pcb, &_s_recv);
 
         if(_pending == NULL){
-          _pending = new_it;
+          _pending = new_item;
         } else {
           struct pending_pcb * p = _pending;
           while(p->next != NULL)
             p = p->next;
-          p->next = new_it;
+          p->next = new_item;
         }
       } else {
         AsyncClient *c = new (std::nothrow) AsyncClient(pcb, _ssl_ctx);

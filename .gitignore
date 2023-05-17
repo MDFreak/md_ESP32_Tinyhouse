@@ -1,3 +1,4 @@
 .autogit
 .pio
-.pio/build/az-delivery-devkit-v4/
+*.ino
+*.bak

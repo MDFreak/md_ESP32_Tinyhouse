@@ -13,6 +13,13 @@
     #include <md_util.h>
     #include <md_filter.hpp>
     #include <project.h>
+      #if (PROJECT == ESP32_TINYHOUSE)
+          #include <Adafruit_GFX.h> //Grafik Bibliothek
+          #include <Adafruit_ILI9341.h> // Display Treiber
+          #include <XPT2046_Touchscreen.h> //Touchscreen Treiber
+          #include <md_TouchEvent.h> //Auswertung von Touchscreen Ereignissen
+          #include <prj_conf_esp32_test2.h>
+        #endif
       #if (PROJECT == ESP32_TEST2)
           #include <Adafruit_GFX.h> //Grafik Bibliothek
           #include <Adafruit_ILI9341.h> // Display Treiber

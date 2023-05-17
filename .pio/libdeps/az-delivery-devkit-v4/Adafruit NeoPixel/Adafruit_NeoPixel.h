@@ -63,7 +63,7 @@
 
 // The order of primary colors in the NeoPixel data stream can vary among
 // device types, manufacturers and even different revisions of the same
-// it.  The third parameter to the Adafruit_NeoPixel constructor encodes
+// item.  The third parameter to the Adafruit_NeoPixel constructor encodes
 // the per-pixel byte offsets of the red, green and blue primaries (plus
 // white, if present) in the data stream -- the following #defines provide
 // an easier-to-use named version for each permutation. e.g. NEO_GRB

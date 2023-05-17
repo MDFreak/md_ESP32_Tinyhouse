@@ -57,11 +57,11 @@ static uint32_t t1l_ticks = 0;
 bool rmt_reserved_channels[ADAFRUIT_RMT_CHANNEL_MAX];
 
 static void IRAM_ATTR ws2812_rmt_adapter(const void *src, rmt_item32_t *dest, size_t src_size,
-        size_t wanted_num, size_t *translated_size, size_t *it_num)
+        size_t wanted_num, size_t *translated_size, size_t *item_num)
 {
     if (src == NULL || dest == NULL) {
         *translated_size = 0;
-        *it_num = 0;
+        *item_num = 0;
         return;
     }
     const rmt_item32_t bit0 = {{{ t0h_ticks, 1, t0l_ticks, 0 }}}; //Logical 0
@@ -85,7 +85,7 @@ static void IRAM_ATTR ws2812_rmt_adapter(const void *src, rmt_item32_t *dest, si
         psrc++;
     }
     *translated_size = size;
-    *it_num = num;
+    *item_num = num;
 }
 
 void espShow(uint8_t pin, uint8_t *pixels, uint32_t numBytes, boolean is800KHz) {

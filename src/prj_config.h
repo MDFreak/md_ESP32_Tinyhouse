@@ -18,6 +18,10 @@
       #define USE_SWCTRL_1812       OFF
   // ******************************************
 
+    #if (PROJECT == ESP32_TINYHOUSE)
+        #include <prj_conf_esp32_tinyhouse.h>
+
+      #endif
     #if (PROJECT == ESP32_TEST2)
         #include <prj_conf_esp32_test2.h>
       #endif

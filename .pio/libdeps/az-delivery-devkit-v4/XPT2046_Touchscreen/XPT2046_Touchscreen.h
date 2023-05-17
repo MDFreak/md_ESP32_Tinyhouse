@@ -56,7 +56,7 @@ public:
 
 private:
 	void update();
-	uint8_t csPin, tirqPin, rotation=2;
+	uint8_t csPin, tirqPin, rotation=1;
 	int16_t xraw=0, yraw=0, zraw=0;
 	uint32_t msraw=0x80000000;
 };

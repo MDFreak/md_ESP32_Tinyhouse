@@ -69,7 +69,7 @@
       #endif
   // --- user inputs
     #if (USE_TOUCHSCREEN > OFF)
-        #include <prj_menu_touchtest.h>
+        #include <prj_menu_tinytouch.h>
         #include <md_touch.h>
 
       #endif

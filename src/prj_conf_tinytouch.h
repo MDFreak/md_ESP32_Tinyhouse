@@ -99,10 +99,6 @@
             #define WIFI_MAX_LEN    20
             #define WIFI_ANZ_LOGIN  8
             #define WIFI_IS_DUTY    ON
-            #define WIFI_SSID0      "MAMD-HomeG"   // Bauwagen
-            #define WIFI_SSID0_PW   "ElaNanniRalf3"
-            #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
-            #define WIFI_SSID1_PW   "ElaNanniRalf3"
             #define WIFI_SSID2      "HS-HomeG"    // WLAN Am Jungberg 9
             #define WIFI_SSID2_PW   "ElaNanniRalf3"
             #define WIFI_SSID3      "WL-Fairnetz" //Weltladen
@@ -125,20 +121,69 @@
             #define NTPSERVER_CYCLE 1000ul   // Intervallzeit [us]
 
             #define WIFI_ANZ_LOCIP  WIFI_ANZ_LOGIN
-            #if   !(BOARD ^ MC_ESP32_Node)
-                  #define WIFI_FIXIP0     0x1900000Aul // 10.0.0.25   lowest first
-                  #define WIFI_FIXIP1     0x1900000Aul // 10.0.0.25
-            #elif !(BOARD ^ MC_ESP32_D1_MINI)
-                   #define WIFI_FIXIP1    0x1A00000Aul // 10.0.0.26
-            #elif !(BOARD ^ MC_ESP32_D1_R32)
-                  #define WIFI_FIXIP1     0x1B00000Aul // 10.0.0.27   lowest first
-            #elif !(BOARD ^ MC_ESP32_AZTOUCH)
-                  #define WIFI_FIXIP0     0x1900A8C0ul // 192.168.0.25   lowest first
-                  #define WIFI_FIXIP1     0x1900000Aul // 10.0.0.25
+            //#if   !(BOARD ^ MC_ESP32_Node)
+            #if (PROJECT == ESP32_TINYHOUSE)
+                #if   (PROJ_BRANCH == BRANCH_VAL_1)
+                    // Router Bauwagen 192.168.0.1
+                      #define WIFI_FIXIP0     0x1800A8C0ul // 192.168.0.24   lowest first
+                      #define WIFI_SSID0      "MAMD-mobil"   // Bauwagen
+                      #define WIFI_SSID0_PW   "M&M2KsR&N#"
+                      #define WIFI_GATEWAY0   0x0100A8C0ul // 192.168.0.1      // Bauwagen
+                    // Router Moosgraben 192.168.0.1
+                      #define WIFI_FIXIP1     0x1800000Aul // 10.0.0.24
+                      #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
+                      #define WIFI_SSID1_PW   "ElaNanniRalf3"
+                      #define WIFI_GATEWAY1   0x8B00000Aul // 10.0.0.139      // Moosgraben
+                  #endif
+                #if (PROJ_BRANCH == BRANCH_VAL_2)
+                    // Router Bauwagen 192.168.0.1
+                      #define WIFI_FIXIP0     0x1900A8C0ul // 192.168.0.25   lowest first
+                      #define WIFI_SSID0      "MAMD-mobil"   // Bauwagen
+                      #define WIFI_SSID0_PW   "M&M2KsR&N#"
+                      #define WIFI_GATEWAY0   0x0100A8C0ul // 192.168.0.1      // Bauwagen
+                    // Router Moosgraben 192.168.0.1
+                      #define WIFI_FIXIP1     0x1900000Aul // 10.0.0.25
+                      #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
+                      #define WIFI_SSID1_PW   "ElaNanniRalf3"
+                      #define WIFI_GATEWAY1   0x8B00000Aul // 10.0.0.139      // Moosgraben
+                  #endif
+                #if (PROJ_BRANCH == BRANCH_TOUCH)
+                    // Router Bauwagen 192.168.0.1
+                      #define WIFI_FIXIP0     0x1A00A8C0ul // 192.168.0.26   lowest first
+                      #define WIFI_SSID0      "MAMD-mobil"   // Bauwagen
+                      #define WIFI_SSID0_PW   "M&M2KsR&N#"
+                      #define WIFI_GATEWAY0   0x0100A8C0ul // 192.168.0.1      // Bauwagen
+                    // Router Moosgraben 192.168.0.1
+                      #define WIFI_FIXIP1     0x1A00000Aul // 10.0.0.26
+                      #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
+                      #define WIFI_SSID1_PW   "ElaNanniRalf3"
+                      #define WIFI_GATEWAY1   0x8B00000Aul // 10.0.0.139      // Moosgraben
+                  #endif
+                #if (PROJ_BRANCH == BRANCH_BLUETTI)
+                    // Router Bauwagen 192.168.0.1
+                      #define WIFI_FIXIP0     0x1F00A8C0ul // 192.168.0.31   lowest first
+                      #define WIFI_SSID0      "MAMD-mobil"   // Bauwagen
+                      #define WIFI_SSID0_PW   "M&M2KsR&N#"
+                      #define WIFI_GATEWAY0   0x0100A8C0ul // 192.168.0.1      // Bauwagen
+                    // Router Moosgraben 192.168.0.1
+                      #define WIFI_FIXIP1     0x1F00000Aul // 10.0.0.231
+                      #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
+                      #define WIFI_SSID1_PW   "ElaNanniRalf3"
+                      #define WIFI_GATEWAY1   0x8B00000Aul // 10.0.0.139      // Moosgraben
+                  #endif
+            #else
+                // Router Bauwagen 192.168.0.1
+                  #define WIFI_FIXIP0     0x1800A8C0ul // 192.168.0.24   lowest first
+                  #define WIFI_SSID0      "MAMD-mobil"   // Bauwagen
+                  #define WIFI_SSID0_PW   "M&M2KsR&N#"
+                  #define WIFI_GATEWAY0   0x0100A8C0ul // 192.168.0.1      // Bauwagen
+                // Router Moosgraben 192.168.0.1
+                  #define WIFI_FIXIP1     0x1800000Aul // 10.0.0.24
+                  #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
+                  #define WIFI_SSID1_PW   "ElaNanniRalf3"
+                  #define WIFI_GATEWAY1   0x8B00000Aul // 10.0.0.139      // Moosgraben
               #endif
             #ifdef USE_LOCAL_IP
-                #define WIFI_GATEWAY0     0x8B00000Aul // 10.0.0.139      // Bauwagen
-                #define WIFI_GATEWAY1     0x8B00000Aul // 10.0.0.139      // Moosgraben
                 #define WIFI_GATEWAY2     0x8B00000Aul // 10.0.0.139      // Jungberg
                 #define WIFI_FIXIP2       0x1800000Aul // 10.0.0.24
                 #define WIFI_GATEWAY3     0x8a00000Aul // 10.0.0.138      // Weltladen
@@ -1093,211 +1138,211 @@
                       #define MQTT_I712_2         "acs7122"
                     #endif
                 #endif
-            #if (USE_MQTT > OFF)
-                #define MQTT_PHOTO1           "photo1"
-              #endif
-            #if (USE_PHOTO_SENS_ANA > 1)
-                #define PHOTO2_FILT           7
-                #define PHOTO2_DROP           0
-                #define PHOTO2_SCAL           OFF
-                #define PHOTO2_SCAL_MIN       0
-                #define PHOTO2_SCAL_MAX       100
-                #define PHOTO2_ADC            ON
-                #if (PHOTO2_ADC > OFF)
-                    #define PHOTO2_ADC_ATT  ADC_ATTEN_DB_11
-                  #endif
-                #define PHOTO2_1115           OFF
-                #if (PHOTO2_1115 > OFF)
-                    #define PHOTO2_1115_ATT  GAIN_ONE
-                    #define PHOTO2_1115_UNIDX  0
-                    #define PHOTO2_1115_CHIDX 0
-                  #endif
-                #if (USE_MQTT > OFF)
-                    #define MQTT_PHOTO2           "licht2"
-                  #endif
-              #endif
-            #ifndef USE_INPUT_CYCLE
-                #define USE_INPUT_CYCLE
-              #endif
-          #endif
-        #if (USE_VCC_ANA > OFF)
-            #define VCC_FILT                0
-            #define VCC_DROP                1
-            #if (USE_VCC50_ANA > OFF)
-                #define VCC50_ADC           OFF
-                #define VCC50_1115          ON
-                #if (VCC50_ADC > OFF)
-                    #define VCC50_ADC_ATT       ADC_ATTEN_DB_11
-                    #define VCC50_SCAL          OFF
-                    #define VCC50_SCAL_OFFRAW   0
-                    #define VCC50_SCAL_GAIN     1
-                    #define VCC50_SCAL_OFFREAL  0
-                  #endif
-                #if (VCC50_1115 > OFF)
-                    #define VCC_1115_UNIDX     0
-                    #define VCC50_1115_CHIDX   2    //
-                    #define ADS13_GAIN        GAIN_TWOTHIRDS
-                    #define ADS13_RATE        RATE_ADS1115_128SPS
-                    #define ADS13_MUX         ADS1X15_MUX_SINGLE
-                    #define VCC50_SCAL        ON
-                    #define VCC50_OFFRAW      0
-                    #define VCC50_GAIN        2
-                    #define VCC50_OFFREAL     0
-                  #endif
-                #if (USE_MQTT > OFF)
-                    #define MQTT_VCC50        "vcc50"
-                  #endif
-              #endif
-            #if (USE_VCC33_ANA > OFF)
-                #define VCC33_ADC         OFF
-                #define VCC33_1115        ON
-                #if (VCC33_1115 > OFF)
-                    #define VCC33_1115_UNIDX   0
-                    #define VCC33_1115_CHIDX   3    //
-                    #define ADS11_GAIN        GAIN_TWOTHIRDS
-                    #define ADS11_RATE        RATE_ADS1115_128SPS
-                    #define ADS11_MUX         ADS1X15_MUX_SINGLE
-                    #define VCC33_SCAL        OFF
-                    #define VCC33_OFFRAW      0
-                    #define VCC33_GAIN        1
-                    #define VCC33_OFFREAL     0
-                  #endif
-                #if (USE_MQTT > OFF)
-                    #define MQTT_VCC33          "vcc33"
-                  #endif
-              #endif
-            #ifndef USE_INPUT_CYCLE
-                #define USE_INPUT_CYCLE
-              #endif
-          #endif
-        #if (USE_POTI_ANA > OFF)
-            #define POTI1_FILT              9
-            #define POTI1_DROP              1
-            #define POTI1_ADC               OFF
-            #if (POTI1_ADC > OFF)
-                #define POTI1_ADC_ATT     ADC_ATTEN_DB_11
-                #define VCC_SCAL_OFFRAW   0
-                #define VCC_SCAL_GAIN     1
-                #define VCC_SCAL_OFFREAL  0
-              #endif
-            #define POTI1_1115              ON
-            #if (POTI1_1115 > OFF)
-                #define POTI1_1115_UNIDX    0
-                #define POTI1_1115_CHIDX    0
-                #define ADS14_GAIN          GAIN_TWOTHIRDS
-                #define ADS14_RATE          RATE_ADS1115_128SPS
-                #define ADS14_MUX           ADS1X15_MUX_SINGLE
-                #define POTI1_OFFRAW        0
-                #define POTI1_GAIN          1
-                #define POTI1_OFFREAL       0
-              #endif
-            #if (USE_MQTT > OFF)
-                #define MQTT_POTI1          "poti1"
-              #endif
-            #if (USE_POTI_ANA > 1)
-                #define POTI2_FILT          7
-                #define POTI2_DROP          0
-                #define POTI2_SCAL          OFF
-                #define POTI2_SCAL_MIN      0
-                #define POTI2_SCAL_MAX      100
-                #define POTI2_ADC           ON
-                #if (POTI2_ADC > OFF)
-                    #define POTI2_ADC_ATT   ADC_ATTEN_DB_11
-                  #endif
-                #define POTI2_1115            OFF
-                #if (POTI2_1115 > OFF)
-                    #define POTI2_1115_UNIDX  0
-                    #define POTI2_1115_CHIDX 0
-                    #define POTI2_1115_ATT  GAIN_TWOTHIRDS
-                  #endif
-                #if (USE_MQTT > OFF)
-                    #define MQTT_POTI2          "poti2"
-                  #endif
-              #endif
-            #ifndef USE_INPUT_CYCLE
-                #define USE_INPUT_CYCLE
-              #endif
-          #endif
-        #if (USE_ACS712_ANA > OFF)
-            /*  ACS712 hall effect current sensor +/- 5A/20A/30 A
-                output: VCC/2 (2,5V) + measured value
-                sensitivity: type  5A -> 186mV/A ->  1570 - 3430 mV
-                sensitivity: type 20A -> 100mV/A ->   500 - 4500 mV
-                sensitivity: type 30A ->  66mV/A ->   520 - 4480 mV
-              */
-            #define I712_FILT               0
-            #define I712_DROP               0
-            #define I712_1_IMAX             5000 // mA
-            #define I712_1_ADC              OFF // not recommended, low resolution
-            #if (I712_1_ADC > OFF)
-                #define I712_1_ADC_ATT   ADC_ATTEN_DB_11
-              #endif
-            #define I712_1_1115             ON
-            #if (I712_1_1115 > OFF)
-                #define I712_1_1115_UNIDX    0
-                #define I712_1_1115_CHIDX    1
-                #if   (I712_1_IMAX ==  5000)
-                    #define ADS12_GAIN            GAIN_TWOTHIRDS
-                    #define ADS12_RATE            RATE_ADS1115_128SPS
-                    #define ADS12_MUX             ADS1X15_MUX_SINGLE
-                    #define I712_1_SCAL_OFFRAW    0
-                    #define I712_1_SCAL_GAIN      185
-                    #define I712_1_SCAL_OFFREAL   0
-                  #endif
-                #if (I712_1_IMAX == 20000)
-                    #define ADS12_GAIN            GAIN_ONE
-                    #define ADS12_RATE            RATE_ADS1115_128SPS
-                    #define ADS12_MUX             ADS1X15_MUX_SINGLE
-                    #define I712_1_SCAL_OFFRAW    0
-                    #define I712_1_SCAL_GAIN      1
-                    #define I712_1_SCAL_OFFRAW    0
-                  #endif
-                #if (I712_1_IMAX == 30000)
-                    #define ADS12_GAIN            GAIN_ONE
-                    #define ADS12_RATE            RATE_ADS1115_128SPS
-                    #define ADS12_MUX             ADS1X15_MUX_SINGLE
-                    #define I712_1_SCAL_OFFRAW    0
-                    #define I712_1_SCAL_GAIN      1
-                    #define I712_1_SCAL_OFFRAW    0
-                  #endif
-                #if (USE_MQTT > OFF)
-                    #define MQTT_I712_1         "acs7121"
-                  #endif
-              #endif
-            #if (USE_ACS712_ANA > 1)
-                #define I712_2_IMAX             5000 // mA
-                #define I712_2_ADC              OFF // not recommended, low resolution
-                #define I712_2_1115             ON
-                #if (I712_2_ADC > OFF)
-                    #define I712_2_ADC_ATT   ADC_ATTEN_DB_11
-                  #endif
-                #if (I712_2_1115 > OFF)
-                    #define I712_2_1115_UNIDX     0
-                    #define I712_2_1115_CHIDX    2
-                    #if  (I712_2_IMAX ==  5000)
-                        #define I712_2_1115_ATT       GAIN_ONE
-                        #define I712_2_SCAL_OFFRAW    0
-                        #define I712_2_SCAL_GAIN      1
-                        #define I712_2_SCAL_OFFREAL   0
-                      #endif
-                    #if (I712_2_IMAX == 20000)
-                        #define I712_2_1115_ATT      GAIN_TWOTHIRDS
-                        #define I712_2_SCAL_OFFRAW    0
-                        #define I712_2_SCAL_GAIN      1
-                        #define I712_2_SCAL_OFFRAW    0
-                      #endif
-                    #if (I712_2_IMAX == 30000)
-                        #define I712_2_1115_ATT      GAIN_TWOTHIRDS
-                        #define I712_2_SCAL_OFFRAW    0
-                        #define I712_2_SCAL_GAIN      1
-                        #define I712_2_SCAL_OFFRAW    0
-                      #endif
-                    #if (USE_MQTT > OFF)
-                        #define MQTT_I712_1         "acs7121"
-                        #define MQTT_I712_2         "acs7122"
-                      #endif
-                  #endif
-
+              #if (USE_MQTT > OFF)
+                  #define MQTT_PHOTO1           "photo1"
+                #endif
+            #endif
+          #if (USE_PHOTO_SENS_ANA > 1)
+              #define PHOTO2_FILT           7
+              #define PHOTO2_DROP           0
+              #define PHOTO2_SCAL           OFF
+              #define PHOTO2_SCAL_MIN       0
+              #define PHOTO2_SCAL_MAX       100
+              #define PHOTO2_ADC            ON
+              #if (PHOTO2_ADC > OFF)
+                  #define PHOTO2_ADC_ATT  ADC_ATTEN_DB_11
+                #endif
+              #define PHOTO2_1115           OFF
+              #if (PHOTO2_1115 > OFF)
+                  #define PHOTO2_1115_ATT  GAIN_ONE
+                  #define PHOTO2_1115_UNIDX  0
+                  #define PHOTO2_1115_CHIDX 0
+                #endif
+              #if (USE_MQTT > OFF)
+                  #define MQTT_PHOTO2           "licht2"
+                #endif
+            #endif
+          #ifndef USE_INPUT_CYCLE
+              #define USE_INPUT_CYCLE
+            #endif
+        #endif
+      #if (USE_VCC_ANA > OFF)
+          #define VCC_FILT                0
+          #define VCC_DROP                1
+          #if (USE_VCC50_ANA > OFF)
+              #define VCC50_ADC           OFF
+              #define VCC50_1115          ON
+              #if (VCC50_ADC > OFF)
+                  #define VCC50_ADC_ATT       ADC_ATTEN_DB_11
+                  #define VCC50_SCAL          OFF
+                  #define VCC50_SCAL_OFFRAW   0
+                  #define VCC50_SCAL_GAIN     1
+                  #define VCC50_SCAL_OFFREAL  0
+                #endif
+              #if (VCC50_1115 > OFF)
+                  #define VCC_1115_UNIDX     0
+                  #define VCC50_1115_CHIDX   2    //
+                  #define ADS13_GAIN        GAIN_TWOTHIRDS
+                  #define ADS13_RATE        RATE_ADS1115_128SPS
+                  #define ADS13_MUX         ADS1X15_MUX_SINGLE
+                  #define VCC50_SCAL        ON
+                  #define VCC50_OFFRAW      0
+                  #define VCC50_GAIN        2
+                  #define VCC50_OFFREAL     0
+                #endif
+              #if (USE_MQTT > OFF)
+                  #define MQTT_VCC50        "vcc50"
+                #endif
+            #endif
+          #if (USE_VCC33_ANA > OFF)
+              #define VCC33_ADC         OFF
+              #define VCC33_1115        ON
+              #if (VCC33_1115 > OFF)
+                  #define VCC33_1115_UNIDX   0
+                  #define VCC33_1115_CHIDX   3    //
+                  #define ADS11_GAIN        GAIN_TWOTHIRDS
+                  #define ADS11_RATE        RATE_ADS1115_128SPS
+                  #define ADS11_MUX         ADS1X15_MUX_SINGLE
+                  #define VCC33_SCAL        OFF
+                  #define VCC33_OFFRAW      0
+                  #define VCC33_GAIN        1
+                  #define VCC33_OFFREAL     0
+                #endif
+              #if (USE_MQTT > OFF)
+                  #define MQTT_VCC33          "vcc33"
+                #endif
+            #endif
+          #ifndef USE_INPUT_CYCLE
+              #define USE_INPUT_CYCLE
+            #endif
+        #endif
+      #if (USE_POTI_ANA > OFF)
+          #define POTI1_FILT              9
+          #define POTI1_DROP              1
+          #define POTI1_ADC               OFF
+          #if (POTI1_ADC > OFF)
+              #define POTI1_ADC_ATT     ADC_ATTEN_DB_11
+              #define VCC_SCAL_OFFRAW   0
+              #define VCC_SCAL_GAIN     1
+              #define VCC_SCAL_OFFREAL  0
+            #endif
+          #define POTI1_1115              ON
+          #if (POTI1_1115 > OFF)
+              #define POTI1_1115_UNIDX    0
+              #define POTI1_1115_CHIDX    0
+              #define ADS14_GAIN          GAIN_TWOTHIRDS
+              #define ADS14_RATE          RATE_ADS1115_128SPS
+              #define ADS14_MUX           ADS1X15_MUX_SINGLE
+              #define POTI1_OFFRAW        0
+              #define POTI1_GAIN          1
+              #define POTI1_OFFREAL       0
+            #endif
+          #if (USE_MQTT > OFF)
+              #define MQTT_POTI1          "poti1"
+            #endif
+          #if (USE_POTI_ANA > 1)
+              #define POTI2_FILT          7
+              #define POTI2_DROP          0
+              #define POTI2_SCAL          OFF
+              #define POTI2_SCAL_MIN      0
+              #define POTI2_SCAL_MAX      100
+              #define POTI2_ADC           ON
+              #if (POTI2_ADC > OFF)
+                  #define POTI2_ADC_ATT   ADC_ATTEN_DB_11
+                #endif
+              #define POTI2_1115            OFF
+              #if (POTI2_1115 > OFF)
+                  #define POTI2_1115_UNIDX  0
+                  #define POTI2_1115_CHIDX 0
+                  #define POTI2_1115_ATT  GAIN_TWOTHIRDS
+                #endif
+              #if (USE_MQTT > OFF)
+                  #define MQTT_POTI2          "poti2"
+                #endif
+            #endif
+          #ifndef USE_INPUT_CYCLE
+              #define USE_INPUT_CYCLE
+            #endif
+        #endif
+      #if (USE_ACS712_ANA > OFF)
+          /*  ACS712 hall effect current sensor +/- 5A/20A/30 A
+              output: VCC/2 (2,5V) + measured value
+              sensitivity: type  5A -> 186mV/A ->  1570 - 3430 mV
+              sensitivity: type 20A -> 100mV/A ->   500 - 4500 mV
+              sensitivity: type 30A ->  66mV/A ->   520 - 4480 mV
+            */
+          #define I712_FILT               0
+          #define I712_DROP               0
+          #define I712_1_IMAX             5000 // mA
+          #define I712_1_ADC              OFF // not recommended, low resolution
+          #if (I712_1_ADC > OFF)
+              #define I712_1_ADC_ATT   ADC_ATTEN_DB_11
+            #endif
+          #define I712_1_1115             ON
+          #if (I712_1_1115 > OFF)
+              #define I712_1_1115_UNIDX    0
+              #define I712_1_1115_CHIDX    1
+              #if   (I712_1_IMAX ==  5000)
+                  #define ADS12_GAIN            GAIN_TWOTHIRDS
+                  #define ADS12_RATE            RATE_ADS1115_128SPS
+                  #define ADS12_MUX             ADS1X15_MUX_SINGLE
+                  #define I712_1_SCAL_OFFRAW    0
+                  #define I712_1_SCAL_GAIN      185
+                  #define I712_1_SCAL_OFFREAL   0
+                #endif
+              #if (I712_1_IMAX == 20000)
+                  #define ADS12_GAIN            GAIN_ONE
+                  #define ADS12_RATE            RATE_ADS1115_128SPS
+                  #define ADS12_MUX             ADS1X15_MUX_SINGLE
+                  #define I712_1_SCAL_OFFRAW    0
+                  #define I712_1_SCAL_GAIN      1
+                  #define I712_1_SCAL_OFFRAW    0
+                #endif
+              #if (I712_1_IMAX == 30000)
+                  #define ADS12_GAIN            GAIN_ONE
+                  #define ADS12_RATE            RATE_ADS1115_128SPS
+                  #define ADS12_MUX             ADS1X15_MUX_SINGLE
+                  #define I712_1_SCAL_OFFRAW    0
+                  #define I712_1_SCAL_GAIN      1
+                  #define I712_1_SCAL_OFFRAW    0
+                #endif
+              #if (USE_MQTT > OFF)
+                  #define MQTT_I712_1         "acs7121"
+                #endif
+            #endif
+          #if (USE_ACS712_ANA > 1)
+              #define I712_2_IMAX             5000 // mA
+              #define I712_2_ADC              OFF // not recommended, low resolution
+              #define I712_2_1115             ON
+              #if (I712_2_ADC > OFF)
+                  #define I712_2_ADC_ATT   ADC_ATTEN_DB_11
+                #endif
+              #if (I712_2_1115 > OFF)
+                  #define I712_2_1115_UNIDX     0
+                  #define I712_2_1115_CHIDX    2
+                  #if  (I712_2_IMAX ==  5000)
+                      #define I712_2_1115_ATT       GAIN_ONE
+                      #define I712_2_SCAL_OFFRAW    0
+                      #define I712_2_SCAL_GAIN      1
+                      #define I712_2_SCAL_OFFREAL   0
+                    #endif
+                  #if (I712_2_IMAX == 20000)
+                      #define I712_2_1115_ATT      GAIN_TWOTHIRDS
+                      #define I712_2_SCAL_OFFRAW    0
+                      #define I712_2_SCAL_GAIN      1
+                      #define I712_2_SCAL_OFFRAW    0
+                    #endif
+                  #if (I712_2_IMAX == 30000)
+                      #define I712_2_1115_ATT      GAIN_TWOTHIRDS
+                      #define I712_2_SCAL_OFFRAW    0
+                      #define I712_2_SCAL_GAIN      1
+                      #define I712_2_SCAL_OFFRAW    0
+                    #endif
+                  #if (USE_MQTT > OFF)
+                      #define MQTT_I712_1         "acs7121"
+                      #define MQTT_I712_2         "acs7122"
+                    #endif
+                #endif
             #endif
         #endif
       #if (USE_ADC1115_I2C > OFF)
@@ -1576,6 +1621,5 @@
                   #define USE_CNT_UNIDX   (CNT_UNIDX_GEN3 + 1)
                 #endif
             #endif
-      #endif
-    // ******************************************
+  // ******************************************
 #endif // _PRJ_CONF_TINYTOUCH_H_

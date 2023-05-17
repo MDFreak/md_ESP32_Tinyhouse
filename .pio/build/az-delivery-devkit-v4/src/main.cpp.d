@@ -271,5 +271,5 @@
  .pio/libdeps/az-delivery-devkit-v4/Adafruit\ Unified\ Sensor/Adafruit_Sensor.h \
  .pio/libdeps/az-delivery-devkit-v4/Adafruit\ BME280\ Library/Adafruit_BME280.h \
  C:/Users/konta/Documents/PlatformIO/Projects/md_lib/md_INA3221/SDL_Arduino_INA3221.h \
- C:/Users/konta/Documents/PlatformIO/Projects/md_lib/md_util/include/md_ADS1115.hpp \
- C:/Users/konta/Documents/PlatformIO/Projects/md_lib/md_ADS1X15/Adafruit_ADS1X15.h
+ C:/Users/konta/Documents/PlatformIO/Projects/md_lib/md_ADS1X15/src/md_ADS1115.hpp \
+ C:/Users/konta/Documents/PlatformIO/Projects/md_lib/md_ADS1X15/src/Adafruit_ADS1X15.h

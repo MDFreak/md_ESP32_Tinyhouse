@@ -1,6 +1,6 @@
 .pio/build/az-delivery-devkit-v4/libc6b/md_ADS1X15/Adafruit_ADS1X15.cpp.o: \
- C:/Users/konta/Documents/PlatformIO/Projects/md_lib/md_ADS1X15/Adafruit_ADS1X15.cpp \
- C:/Users/konta/Documents/PlatformIO/Projects/md_lib/md_ADS1X15/Adafruit_ADS1X15.h \
+ C:/Users/konta/Documents/PlatformIO/Projects/md_lib/md_ADS1X15/src/Adafruit_ADS1X15.cpp \
+ C:/Users/konta/Documents/PlatformIO/Projects/md_lib/md_ADS1X15/src/Adafruit_ADS1X15.h \
  .pio/libdeps/az-delivery-devkit-v4/Adafruit\ BusIO/Adafruit_I2CDevice.h \
  C:/Users/konta/.platformio/packages/framework-arduinoespressif32/cores/esp32/Arduino.h \
  C:/Users/konta/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp_arduino_version.h \

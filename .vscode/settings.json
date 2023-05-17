@@ -1,0 +1,23 @@
+{
+  "files.associations": {
+    "MLTable": "yaml",
+    "string": "cpp",
+    "cstring": "cpp",
+    "typeinfo": "cpp",
+    "ledc_struct.h": "c",
+    "adafruit_gfx.h": "c",
+    "*.tcc": "cpp",
+    "fstream": "cpp",
+    "array": "cpp",
+    "deque": "cpp",
+    "unordered_map": "cpp",
+    "unordered_set": "cpp",
+    "vector": "cpp",
+    "string_view": "cpp",
+    "memory": "cpp",
+    "random": "cpp",
+    "initializer_list": "cpp",
+    "regex": "cpp"
+  },
+  "cmake.sourceDirectory": "${workspaceFolder}/.pio/libdeps/az-delivery-devkit-v4/ArduinoJson/src"
+}

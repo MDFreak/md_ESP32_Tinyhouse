@@ -1,5 +1,5 @@
-#ifndef _PRJ_MENU_TOUCHTEST_H_
-  #define _PRJ_MENU_TOUCHTEST_H_
+#ifndef _PRJ_MENU_TINYTOUCH_H_
+  #define _PRJ_MENU_TINYTOUCH_H_
 
   // includes
     #include <md_defines.h>
@@ -474,4 +474,4 @@
         configMenuItems(pits);
         STXT(" .. fertig ");
       }
-#endif
+#endif // _PRJ_MENU_TINYTOUCH_H_

@@ -99,10 +99,6 @@
             #define WIFI_MAX_LEN    20
             #define WIFI_ANZ_LOGIN  8
             #define WIFI_IS_DUTY    ON
-            #define WIFI_SSID0      "MAMD-HomeG"   // Bauwagen
-            #define WIFI_SSID0_PW   "ElaNanniRalf3"
-            #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
-            #define WIFI_SSID1_PW   "ElaNanniRalf3"
             #define WIFI_SSID2      "HS-HomeG"    // WLAN Am Jungberg 9
             #define WIFI_SSID2_PW   "ElaNanniRalf3"
             #define WIFI_SSID3      "WL-Fairnetz" //Weltladen
@@ -125,20 +121,69 @@
             #define NTPSERVER_CYCLE 1000ul   // Intervallzeit [us]
 
             #define WIFI_ANZ_LOCIP  WIFI_ANZ_LOGIN
-            #if   !(BOARD ^ MC_ESP32_Node)
-                  #define WIFI_FIXIP0     0x1900000Aul // 10.0.0.25   lowest first
-                  #define WIFI_FIXIP1     0x1900000Aul // 10.0.0.25
-            #elif !(BOARD ^ MC_ESP32_D1_MINI)
-                   #define WIFI_FIXIP1    0x1A00000Aul // 10.0.0.26
-            #elif !(BOARD ^ MC_ESP32_D1_R32)
-                  #define WIFI_FIXIP1     0x1B00000Aul // 10.0.0.27   lowest first
-            #elif !(BOARD ^ MC_ESP32_AZTOUCH)
-                  #define WIFI_FIXIP0     0x1900A8C0ul // 192.168.0.25   lowest first
-                  #define WIFI_FIXIP1     0x1900000Aul // 10.0.0.25
+            //#if   !(BOARD ^ MC_ESP32_Node)
+            #if (PROJECT == ESP32_TINYHOUSE)
+                #if   (PROJ_BRANCH == BRANCH_VAL_1)
+                    // Router Bauwagen 192.168.0.1
+                      #define WIFI_FIXIP0     0x1800A8C0ul // 192.168.0.24   lowest first
+                      #define WIFI_SSID0      "MAMD-mobil"   // Bauwagen
+                      #define WIFI_SSID0_PW   "M&M2KsR&N#"
+                      #define WIFI_GATEWAY0   0x0100A8C0ul // 192.168.0.1      // Bauwagen
+                    // Router Moosgraben 192.168.0.1
+                      #define WIFI_FIXIP1     0x1800000Aul // 10.0.0.24
+                      #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
+                      #define WIFI_SSID1_PW   "ElaNanniRalf3"
+                      #define WIFI_GATEWAY1   0x8B00000Aul // 10.0.0.139      // Moosgraben
+                  #endif
+                #if (PROJ_BRANCH == BRANCH_VAL_2)
+                    // Router Bauwagen 192.168.0.1
+                      #define WIFI_FIXIP0     0x1900A8C0ul // 192.168.0.25   lowest first
+                      #define WIFI_SSID0      "MAMD-mobil"   // Bauwagen
+                      #define WIFI_SSID0_PW   "M&M2KsR&N#"
+                      #define WIFI_GATEWAY0   0x0100A8C0ul // 192.168.0.1      // Bauwagen
+                    // Router Moosgraben 192.168.0.1
+                      #define WIFI_FIXIP1     0x1900000Aul // 10.0.0.25
+                      #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
+                      #define WIFI_SSID1_PW   "ElaNanniRalf3"
+                      #define WIFI_GATEWAY1   0x8B00000Aul // 10.0.0.139      // Moosgraben
+                  #endif
+                #if (PROJ_BRANCH == BRANCH_TOUCH)
+                    // Router Bauwagen 192.168.0.1
+                      #define WIFI_FIXIP0     0x1A00A8C0ul // 192.168.0.26   lowest first
+                      #define WIFI_SSID0      "MAMD-mobil"   // Bauwagen
+                      #define WIFI_SSID0_PW   "M&M2KsR&N#"
+                      #define WIFI_GATEWAY0   0x0100A8C0ul // 192.168.0.1      // Bauwagen
+                    // Router Moosgraben 192.168.0.1
+                      #define WIFI_FIXIP1     0x1A00000Aul // 10.0.0.26
+                      #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
+                      #define WIFI_SSID1_PW   "ElaNanniRalf3"
+                      #define WIFI_GATEWAY1   0x8B00000Aul // 10.0.0.139      // Moosgraben
+                  #endif
+                #if (PROJ_BRANCH == BRANCH_BLUETTI)
+                    // Router Bauwagen 192.168.0.1
+                      #define WIFI_FIXIP0     0x1F00A8C0ul // 192.168.0.31   lowest first
+                      #define WIFI_SSID0      "MAMD-mobil"   // Bauwagen
+                      #define WIFI_SSID0_PW   "M&M2KsR&N#"
+                      #define WIFI_GATEWAY0   0x0100A8C0ul // 192.168.0.1      // Bauwagen
+                    // Router Moosgraben 192.168.0.1
+                      #define WIFI_FIXIP1     0x1F00000Aul // 10.0.0.231
+                      #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
+                      #define WIFI_SSID1_PW   "ElaNanniRalf3"
+                      #define WIFI_GATEWAY1   0x8B00000Aul // 10.0.0.139      // Moosgraben
+                  #endif
+            #else
+                // Router Bauwagen 192.168.0.1
+                  #define WIFI_FIXIP0     0x1800A8C0ul // 192.168.0.24   lowest first
+                  #define WIFI_SSID0      "MAMD-mobil"   // Bauwagen
+                  #define WIFI_SSID0_PW   "M&M2KsR&N#"
+                  #define WIFI_GATEWAY0   0x0100A8C0ul // 192.168.0.1      // Bauwagen
+                // Router Moosgraben 192.168.0.1
+                  #define WIFI_FIXIP1     0x1800000Aul // 10.0.0.24
+                  #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
+                  #define WIFI_SSID1_PW   "ElaNanniRalf3"
+                  #define WIFI_GATEWAY1   0x8B00000Aul // 10.0.0.139      // Moosgraben
               #endif
             #ifdef USE_LOCAL_IP
-                #define WIFI_GATEWAY0     0x8B00000Aul // 10.0.0.139      // Bauwagen
-                #define WIFI_GATEWAY1     0x8B00000Aul // 10.0.0.139      // Moosgraben
                 #define WIFI_GATEWAY2     0x8B00000Aul // 10.0.0.139      // Jungberg
                 #define WIFI_FIXIP2       0x1800000Aul // 10.0.0.24
                 #define WIFI_GATEWAY3     0x8a00000Aul // 10.0.0.138      // Weltladen

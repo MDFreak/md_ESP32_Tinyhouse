@@ -35,7 +35,7 @@
               #include <prj_conf_tinyval_2.h>
           #elif (PROJ_BRANCH == BRANCH_BLUETTI)
               #include <prj_conf_tinybluetti.h>
-          #elif (PROJ_BRANCH == BRANCH_VAL_1)
+          #elif (PROJ_BRANCH == BRANCH_TOUCH)
               #include <prj_conf_tinytouch.h>
             #endif
       #endif

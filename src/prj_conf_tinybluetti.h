@@ -1,9 +1,9 @@
-#ifndef _PRJ_CONF_TOUCHTEST_1_H_
-  #define _PRJ_CONF_TOUCHTEST_1_H_
+#ifndef _PRJ_CONF_TINYBLUETTI_H_
+  #define _PRJ_CONF_TINYBLUTTI_H_
 
   #include <Arduino.h>
   #include <md_defines.h>
-  #include <prj_esp32_test2.h>
+  #include <prj_TINYHOUSE.h>
 
   // ******************************************
     // --- test features --------------------------------
@@ -26,7 +26,7 @@
         #define ERRBIT_WIFI       0x00000004     // WIFI connection
         #define ERRBIT_NTPTIME    0x00000008     // NTP timeserver connection
       // --- generic
-        #define SCAN_I2C          ON // 128
+        #define SCAN_I2C          OFF // 128
         #define TEST_NUM_CONVERT  OFF
         #define CHECK_I2C_DEVICES
         //#define UTC_SEASONTIME UTC_WINTERTIME
@@ -99,10 +99,6 @@
             #define WIFI_MAX_LEN    20
             #define WIFI_ANZ_LOGIN  8
             #define WIFI_IS_DUTY    ON
-            #define WIFI_SSID0      "M&M_mobil"   // Bauwagen
-            #define WIFI_SSID0_PW   "ElaNanniRalf3"
-            #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
-            #define WIFI_SSID1_PW   "ElaNanniRalf3"
             #define WIFI_SSID2      "HS-HomeG"    // WLAN Am Jungberg 9
             #define WIFI_SSID2_PW   "ElaNanniRalf3"
             #define WIFI_SSID3      "WL-Fairnetz" //Weltladen
@@ -125,20 +121,69 @@
             #define NTPSERVER_CYCLE 1000ul   // Intervallzeit [us]
 
             #define WIFI_ANZ_LOCIP  WIFI_ANZ_LOGIN
-            #if   !(BOARD ^ MC_ESP32_Node)
+            //#if   !(BOARD ^ MC_ESP32_Node)
+            #if (PROJECT == ESP32_TINYHOUSE)
+                #if   (PROJ_BRANCH == BRANCH_VAL_1)
+                    // Router Bauwagen 192.168.0.1
+                      #define WIFI_FIXIP0     0x1800A8C0ul // 192.168.0.24   lowest first
+                      #define WIFI_SSID0      "MAMD-mobil"   // Bauwagen
+                      #define WIFI_SSID0_PW   "M&M2KsR&N#"
+                      #define WIFI_GATEWAY0   0x0100A8C0ul // 192.168.0.1      // Bauwagen
+                    // Router Moosgraben 192.168.0.1
+                      #define WIFI_FIXIP1     0x1800000Aul // 10.0.0.24
+                      #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
+                      #define WIFI_SSID1_PW   "ElaNanniRalf3"
+                      #define WIFI_GATEWAY1   0x8B00000Aul // 10.0.0.139      // Moosgraben
+                  #endif
+                #if (PROJ_BRANCH == BRANCH_VAL_2)
+                    // Router Bauwagen 192.168.0.1
+                      #define WIFI_FIXIP0     0x1900A8C0ul // 192.168.0.25   lowest first
+                      #define WIFI_SSID0      "MAMD-mobil"   // Bauwagen
+                      #define WIFI_SSID0_PW   "M&M2KsR&N#"
+                      #define WIFI_GATEWAY0   0x0100A8C0ul // 192.168.0.1      // Bauwagen
+                    // Router Moosgraben 192.168.0.1
+                      #define WIFI_FIXIP1     0x1900000Aul // 10.0.0.25
+                      #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
+                      #define WIFI_SSID1_PW   "ElaNanniRalf3"
+                      #define WIFI_GATEWAY1   0x8B00000Aul // 10.0.0.139      // Moosgraben
+                  #endif
+                #if (PROJ_BRANCH == BRANCH_TOUCH)
+                    // Router Bauwagen 192.168.0.1
+                      #define WIFI_FIXIP0     0x1A00A8C0ul // 192.168.0.26   lowest first
+                      #define WIFI_SSID0      "MAMD-mobil"   // Bauwagen
+                      #define WIFI_SSID0_PW   "M&M2KsR&N#"
+                      #define WIFI_GATEWAY0   0x0100A8C0ul // 192.168.0.1      // Bauwagen
+                    // Router Moosgraben 192.168.0.1
+                      #define WIFI_FIXIP1     0x1A00000Aul // 10.0.0.26
+                      #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
+                      #define WIFI_SSID1_PW   "ElaNanniRalf3"
+                      #define WIFI_GATEWAY1   0x8B00000Aul // 10.0.0.139      // Moosgraben
+                  #endif
+                #if (PROJ_BRANCH == BRANCH_BLUETTI)
+                    // Router Bauwagen 192.168.0.1
+                      #define WIFI_FIXIP0     0x1F00A8C0ul // 192.168.0.31   lowest first
+                      #define WIFI_SSID0      "MAMD-mobil"   // Bauwagen
+                      #define WIFI_SSID0_PW   "M&M2KsR&N#"
+                      #define WIFI_GATEWAY0   0x0100A8C0ul // 192.168.0.1      // Bauwagen
+                    // Router Moosgraben 192.168.0.1
+                      #define WIFI_FIXIP1     0x1F00000Aul // 10.0.0.231
+                      #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
+                      #define WIFI_SSID1_PW   "ElaNanniRalf3"
+                      #define WIFI_GATEWAY1   0x8B00000Aul // 10.0.0.139      // Moosgraben
+                  #endif
+            #else
+                // Router Bauwagen 192.168.0.1
                   #define WIFI_FIXIP0     0x1800A8C0ul // 192.168.0.24   lowest first
-                  #define WIFI_FIXIP1     0x1900000Aul // 10.0.0.25
-            #elif !(BOARD ^ MC_ESP32_D1_MINI)
-                   #define WIFI_FIXIP1    0x1A00000Aul // 10.0.0.26
-            #elif !(BOARD ^ MC_ESP32_D1_R32)
-                  #define WIFI_FIXIP1     0x1B00000Aul // 10.0.0.27   lowest first
-            #elif !(BOARD ^ MC_ESP32_AZTOUCH)
-                  #define WIFI_FIXIP0     0x1900A8C0ul // 192.168.0.25   lowest first
-                  #define WIFI_FIXIP1     0x1900000Aul // 10.0.0.25
+                  #define WIFI_SSID0      "MAMD-mobil"   // Bauwagen
+                  #define WIFI_SSID0_PW   "M&M2KsR&N#"
+                  #define WIFI_GATEWAY0   0x0100A8C0ul // 192.168.0.1      // Bauwagen
+                // Router Moosgraben 192.168.0.1
+                  #define WIFI_FIXIP1     0x1800000Aul // 10.0.0.24
+                  #define WIFI_SSID1      "MAMD-HomeG"  // WLAN Moosgrabenstrasse 26
+                  #define WIFI_SSID1_PW   "ElaNanniRalf3"
+                  #define WIFI_GATEWAY1   0x8B00000Aul // 10.0.0.139      // Moosgraben
               #endif
             #ifdef USE_LOCAL_IP
-                #define WIFI_GATEWAY0     0x0100A8C0ul // 192.168.0.1     // Bauwagen
-                #define WIFI_GATEWAY1     0x8B00000Aul // 10.0.0.139      // Moosgraben
                 #define WIFI_GATEWAY2     0x8B00000Aul // 10.0.0.139      // Jungberg
                 #define WIFI_FIXIP2       0x1800000Aul // 10.0.0.24
                 #define WIFI_GATEWAY3     0x8a00000Aul // 10.0.0.138      // Weltladen
@@ -1093,83 +1138,84 @@
                       #define MQTT_I712_2         "acs7122"
                     #endif
                 #endif
-            #if (USE_MQTT > OFF)
-                #define MQTT_PHOTO1           "photo1"
-              #endif
-            #if (USE_PHOTO_SENS_ANA > 1)
-                #define PHOTO2_FILT           7
-                #define PHOTO2_DROP           0
-                #define PHOTO2_SCAL           OFF
-                #define PHOTO2_SCAL_MIN       0
-                #define PHOTO2_SCAL_MAX       100
-                #define PHOTO2_ADC            ON
-                #if (PHOTO2_ADC > OFF)
-                    #define PHOTO2_ADC_ATT  ADC_ATTEN_DB_11
-                  #endif
-                #define PHOTO2_1115           OFF
-                #if (PHOTO2_1115 > OFF)
-                    #define PHOTO2_1115_ATT  GAIN_ONE
-                    #define PHOTO2_1115_UNIDX  0
-                    #define PHOTO2_1115_CHIDX 0
-                  #endif
-                #if (USE_MQTT > OFF)
-                    #define MQTT_PHOTO2           "licht2"
-                  #endif
-              #endif
-            #ifndef USE_INPUT_CYCLE
-                #define USE_INPUT_CYCLE
-              #endif
-          #endif
-        #if (USE_VCC_ANA > OFF)
-            #define VCC_FILT                0
-            #define VCC_DROP                1
-            #if (USE_VCC50_ANA > OFF)
-                #define VCC50_ADC           OFF
-                #define VCC50_1115          ON
-                #if (VCC50_ADC > OFF)
-                    #define VCC50_ADC_ATT       ADC_ATTEN_DB_11
-                    #define VCC50_SCAL          OFF
-                    #define VCC50_SCAL_OFFRAW   0
-                    #define VCC50_SCAL_GAIN     1
-                    #define VCC50_SCAL_OFFREAL  0
-                  #endif
-                #if (VCC50_1115 > OFF)
-                    #define VCC_1115_UNIDX     0
-                    #define VCC50_1115_CHIDX   2    //
-                    #define ADS13_GAIN        GAIN_TWOTHIRDS
-                    #define ADS13_RATE        RATE_ADS1115_128SPS
-                    #define ADS13_MUX         ADS1X15_MUX_SINGLE
-                    #define VCC50_SCAL        ON
-                    #define VCC50_OFFRAW      0
-                    #define VCC50_GAIN        2
-                    #define VCC50_OFFREAL     0
-                  #endif
-                #if (USE_MQTT > OFF)
-                    #define MQTT_VCC50        "vcc50"
-                  #endif
-              #endif
-            #if (USE_VCC33_ANA > OFF)
-                #define VCC33_ADC         OFF
-                #define VCC33_1115        ON
-                #if (VCC33_1115 > OFF)
-                    #define VCC33_1115_UNIDX   0
-                    #define VCC33_1115_CHIDX   3    //
-                    #define ADS11_GAIN        GAIN_TWOTHIRDS
-                    #define ADS11_RATE        RATE_ADS1115_128SPS
-                    #define ADS11_MUX         ADS1X15_MUX_SINGLE
-                    #define VCC33_SCAL        OFF
-                    #define VCC33_OFFRAW      0
-                    #define VCC33_GAIN        1
-                    #define VCC33_OFFREAL     0
-                  #endif
-                #if (USE_MQTT > OFF)
-                    #define MQTT_VCC33          "vcc33"
-                  #endif
-              #endif
-            #ifndef USE_INPUT_CYCLE
-                #define USE_INPUT_CYCLE
-              #endif
-          #endif
+              #if (USE_MQTT > OFF)
+                  #define MQTT_PHOTO1           "photo1"
+                #endif
+              #if (USE_PHOTO_SENS_ANA > 1)
+                  #define PHOTO2_FILT           7
+                  #define PHOTO2_DROP           0
+                  #define PHOTO2_SCAL           OFF
+                  #define PHOTO2_SCAL_MIN       0
+                  #define PHOTO2_SCAL_MAX       100
+                  #define PHOTO2_ADC            ON
+                  #if (PHOTO2_ADC > OFF)
+                      #define PHOTO2_ADC_ATT  ADC_ATTEN_DB_11
+                    #endif
+                  #define PHOTO2_1115           OFF
+                  #if (PHOTO2_1115 > OFF)
+                      #define PHOTO2_1115_ATT  GAIN_ONE
+                      #define PHOTO2_1115_UNIDX  0
+                      #define PHOTO2_1115_CHIDX 0
+                    #endif
+                  #if (USE_MQTT > OFF)
+                      #define MQTT_PHOTO2           "licht2"
+                    #endif
+                #endif
+              #ifndef USE_INPUT_CYCLE
+                  #define USE_INPUT_CYCLE
+                #endif
+            #endif
+        #endif
+      #if (USE_VCC_ANA > OFF)
+          #define VCC_FILT                0
+          #define VCC_DROP                1
+          #if (USE_VCC50_ANA > OFF)
+              #define VCC50_ADC           OFF
+              #define VCC50_1115          ON
+              #if (VCC50_ADC > OFF)
+                  #define VCC50_ADC_ATT       ADC_ATTEN_DB_11
+                  #define VCC50_SCAL          OFF
+                  #define VCC50_SCAL_OFFRAW   0
+                  #define VCC50_SCAL_GAIN     1
+                  #define VCC50_SCAL_OFFREAL  0
+                #endif
+              #if (VCC50_1115 > OFF)
+                  #define VCC_1115_UNIDX     0
+                  #define VCC50_1115_CHIDX   2    //
+                  #define ADS13_GAIN        GAIN_TWOTHIRDS
+                  #define ADS13_RATE        RATE_ADS1115_128SPS
+                  #define ADS13_MUX         ADS1X15_MUX_SINGLE
+                  #define VCC50_SCAL        ON
+                  #define VCC50_OFFRAW      0
+                  #define VCC50_GAIN        2
+                  #define VCC50_OFFREAL     0
+                #endif
+              #if (USE_MQTT > OFF)
+                  #define MQTT_VCC50        "vcc50"
+                #endif
+            #endif
+          #if (USE_VCC33_ANA > OFF)
+              #define VCC33_ADC         OFF
+              #define VCC33_1115        ON
+              #if (VCC33_1115 > OFF)
+                  #define VCC33_1115_UNIDX   0
+                  #define VCC33_1115_CHIDX   3    //
+                  #define ADS11_GAIN        GAIN_TWOTHIRDS
+                  #define ADS11_RATE        RATE_ADS1115_128SPS
+                  #define ADS11_MUX         ADS1X15_MUX_SINGLE
+                  #define VCC33_SCAL        OFF
+                  #define VCC33_OFFRAW      0
+                  #define VCC33_GAIN        1
+                  #define VCC33_OFFREAL     0
+                #endif
+              #if (USE_MQTT > OFF)
+                  #define MQTT_VCC33          "vcc33"
+                #endif
+            #endif
+          #ifndef USE_INPUT_CYCLE
+              #define USE_INPUT_CYCLE
+            #endif
+        #endif
         #if (USE_POTI_ANA > OFF)
             #define POTI1_FILT              9
             #define POTI1_DROP              1
@@ -1300,7 +1346,6 @@
 
             #endif
         #endif
-
       #if (USE_ADC1115_I2C > OFF)
           #define ADS_I2C          I2C1
           #define ADS1_RUNMODE     MD_NORM
@@ -1332,11 +1377,10 @@
         #ifdef USE_OUTPUT_CYCLE
             #define OUTPUT_CYCLE_MS 20u
           #endif
-
   // ----------------------------------------------------------------
   // --- board management
   // ----------------------------------------------------------------
-    #if !(BOARD ^ MC_ESP32_AZTOUCH)
+          #define BOARD   MC_ESP32_Node     // platform=espressiv32, env=env:esp32dev, az-delivery-devkit-v4
       // --- system
         #define SER_BAUDRATE ESP_SER_BAUD
         // --- network
@@ -1353,8 +1397,8 @@
               #define PIN_BOARD_LED       2 // NC
             #endif
           // --- I2C board connection
-            #define PIN_I2C1_SDA          32  //21
-            #define PIN_I2C1_SCL          26  //22
+            #define PIN_I2C1_SDA          21
+            #define PIN_I2C1_SCL          22
             #if ( USE_I2C > 1 )
                 #define PIN_I2C2_SDA  25
                 #define PIN_I2C2_SCL  26
@@ -1477,7 +1521,7 @@
             #endif
 
           #if (USE_BUZZER_PWM > OFF)
-              #define PIN_BUZZ        21
+              #define PIN_BUZZ      32
             #endif
         // --- sensors
           #if (USE_DS18B20_1W_IO > OFF)
@@ -1578,6 +1622,5 @@
                   #define USE_CNT_UNIDX   (CNT_UNIDX_GEN3 + 1)
                 #endif
             #endif
-      #endif
     // ******************************************
-#endif // _PRJ_CONF_TOUCHTEST_1_H_
+#endif // _PRJ_CONF_TINYBLUETTI_H_

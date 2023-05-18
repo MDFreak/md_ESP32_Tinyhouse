@@ -13,6 +13,28 @@
     #include <md_util.h>
     #include <md_filter.hpp>
     #include <project.h>
+      #if (PROJECT == ESP32_TINYHOUSE)
+          #include <prj_config.h>
+          #include <Adafruit_GFX.h> //Grafik Bibliothek
+          #include <Adafruit_ILI9341.h> // Display Treiber
+          #include <XPT2046_Touchscreen.h> //Touchscreen Treiber
+          //#include <md_TouchEvent.h> //Auswertung von Touchscreen Ereignissen
+          #include <prj_tinyhouse.h>
+          #if   (PROJ_BRANCH == BRANCH_VAL_1)
+              #include <prj_conf_tinyval_1.h>
+            #endif
+          #if (PROJ_BRANCH == BRANCH_VAL_2)
+              #include <prj_conf_tinyval_2.h>
+            #endif
+          #if (PROJ_BRANCH == BRANCH_BLUETTI)
+              hallo
+              #include <prj_conf_tinybluetti.h>
+            #endif
+          #if (PROJ_BRANCH == BRANCH_TOUCH)
+              #include <prj_conf_tinytouch.h>
+            #endif
+          //#include <prj_conf_esp32_test2.h>
+        #endif
       #if (PROJECT == ESP32_TEST2)
           #include <Adafruit_GFX.h> //Grafik Bibliothek
           #include <Adafruit_ILI9341.h> // Display Treiber

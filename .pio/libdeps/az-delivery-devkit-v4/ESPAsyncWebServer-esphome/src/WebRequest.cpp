@@ -58,15 +58,15 @@ AsyncWebServerRequest::AsyncWebServerRequest(AsyncWebServer* s, AsyncClient* c)
   , _pathParams(LinkedList<String *>([](String *p){ delete p; }))
   , _multiParseState(0)
   , _boundaryPosition(0)
-  , _itStartIndex(0)
-  , _itSize(0)
-  , _itName()
-  , _itFilename()
-  , _itType()
-  , _itValue()
-  , _itBuffer(0)
-  , _itBufferIndex(0)
-  , _itIsFile(false)
+  , _itemStartIndex(0)
+  , _itemSize(0)
+  , _itemName()
+  , _itemFilename()
+  , _itemType()
+  , _itemValue()
+  , _itemBuffer(0)
+  , _itemBufferIndex(0)
+  , _itemIsFile(false)
   , _tempObject(NULL)
 {
   c->onError([](void *r, AsyncClient* c, int8_t error){ (void)c; AsyncWebServerRequest *req = (AsyncWebServerRequest*)r; req->_onError(error); }, this);
@@ -367,13 +367,13 @@ void AsyncWebServerRequest::_parsePlainPostChar(uint8_t data){
 }
 
 void AsyncWebServerRequest::_handleUploadByte(uint8_t data, bool last){
-  _itBuffer[_itBufferIndex++] = data;
+  _itemBuffer[_itemBufferIndex++] = data;
 
-  if(last || _itBufferIndex == 1460){
+  if(last || _itemBufferIndex == 1460){
     //check if authenticated before calling the upload
     if(_handler)
-      _handler->handleUpload(this, _itFilename, _itSize - _itBufferIndex, _itBuffer, _itBufferIndex, false);
-    _itBufferIndex = 0;
+      _handler->handleUpload(this, _itemFilename, _itemSize - _itemBufferIndex, _itemBuffer, _itemBufferIndex, false);
+    _itemBufferIndex = 0;
   }
 }
 
@@ -392,19 +392,19 @@ enum {
 };
 
 void AsyncWebServerRequest::_parseMultipartPostByte(uint8_t data, bool last){
-#define itWriteByte(b) do { _itSize++; if(_itIsFile) _handleUploadByte(b, last); else _itValue+=(char)(b); } while(0)
+#define itemWriteByte(b) do { _itemSize++; if(_itemIsFile) _handleUploadByte(b, last); else _itemValue+=(char)(b); } while(0)
 
   if(!_parsedLength){
     _multiParseState = EXPECT_BOUNDARY;
     _temp = String();
-    _itName = String();
-    _itFilename = String();
-    _itType = String();
+    _itemName = String();
+    _itemFilename = String();
+    _itemType = String();
   }
 
   if(_multiParseState == WAIT_FOR_RETURN1){
     if(data != '\r'){
-      itWriteByte(data);
+      itemWriteByte(data);
     } else {
       _multiParseState = EXPECT_FEED1;
     }
@@ -424,7 +424,7 @@ void AsyncWebServerRequest::_parseMultipartPostByte(uint8_t data, bool last){
         return;
       }
       _multiParseState = PARSE_HEADERS;
-      _itIsFile = false;
+      _itemIsFile = false;
     }
   } else if(_multiParseState == PARSE_HEADERS){
     if((char)data != '\r' && (char)data != '\n')
@@ -432,67 +432,67 @@ void AsyncWebServerRequest::_parseMultipartPostByte(uint8_t data, bool last){
     if((char)data == '\n'){
       if(_temp.length()){
         if(_temp.length() > 12 && _temp.substring(0, 12).equalsIgnoreCase("Content-Type")){
-          _itType = _temp.substring(14);
-          _itIsFile = true;
+          _itemType = _temp.substring(14);
+          _itemIsFile = true;
         } else if(_temp.length() > 19 && _temp.substring(0, 19).equalsIgnoreCase("Content-Disposition")){
           _temp = _temp.substring(_temp.indexOf(';') + 2);
           while(_temp.indexOf(';') > 0){
             String name = _temp.substring(0, _temp.indexOf('='));
             String nameVal = _temp.substring(_temp.indexOf('=') + 2, _temp.indexOf(';') - 1);
             if(name == "name"){
-              _itName = nameVal;
+              _itemName = nameVal;
             } else if(name == "filename"){
-              _itFilename = nameVal;
-              _itIsFile = true;
+              _itemFilename = nameVal;
+              _itemIsFile = true;
             }
             _temp = _temp.substring(_temp.indexOf(';') + 2);
           }
           String name = _temp.substring(0, _temp.indexOf('='));
           String nameVal = _temp.substring(_temp.indexOf('=') + 2, _temp.length() - 1);
           if(name == "name"){
-            _itName = nameVal;
+            _itemName = nameVal;
           } else if(name == "filename"){
-            _itFilename = nameVal;
-            _itIsFile = true;
+            _itemFilename = nameVal;
+            _itemIsFile = true;
           }
         }
         _temp = String();
       } else {
         _multiParseState = WAIT_FOR_RETURN1;
         //value starts from here
-        _itSize = 0;
-        _itStartIndex = _parsedLength;
-        _itValue = String();
-        if(_itIsFile){
-          if(_itBuffer)
-            free(_itBuffer);
-          _itBuffer = (uint8_t*)malloc(1460);
-          if(_itBuffer == NULL){
+        _itemSize = 0;
+        _itemStartIndex = _parsedLength;
+        _itemValue = String();
+        if(_itemIsFile){
+          if(_itemBuffer)
+            free(_itemBuffer);
+          _itemBuffer = (uint8_t*)malloc(1460);
+          if(_itemBuffer == NULL){
             _multiParseState = PARSE_ERROR;
             return;
           }
-          _itBufferIndex = 0;
+          _itemBufferIndex = 0;
         }
       }
     }
   } else if(_multiParseState == EXPECT_FEED1){
     if(data != '\n'){
       _multiParseState = WAIT_FOR_RETURN1;
-      itWriteByte('\r'); _parseMultipartPostByte(data, last);
+      itemWriteByte('\r'); _parseMultipartPostByte(data, last);
     } else {
       _multiParseState = EXPECT_DASH1;
     }
   } else if(_multiParseState == EXPECT_DASH1){
     if(data != '-'){
       _multiParseState = WAIT_FOR_RETURN1;
-      itWriteByte('\r'); itWriteByte('\n');  _parseMultipartPostByte(data, last);
+      itemWriteByte('\r'); itemWriteByte('\n');  _parseMultipartPostByte(data, last);
     } else {
       _multiParseState = EXPECT_DASH2;
     }
   } else if(_multiParseState == EXPECT_DASH2){
     if(data != '-'){
       _multiParseState = WAIT_FOR_RETURN1;
-      itWriteByte('\r'); itWriteByte('\n'); itWriteByte('-');  _parseMultipartPostByte(data, last);
+      itemWriteByte('\r'); itemWriteByte('\n'); itemWriteByte('-');  _parseMultipartPostByte(data, last);
     } else {
       _multiParseState = BOUNDARY_OR_DATA;
       _boundaryPosition = 0;
@@ -500,24 +500,24 @@ void AsyncWebServerRequest::_parseMultipartPostByte(uint8_t data, bool last){
   } else if(_multiParseState == BOUNDARY_OR_DATA){
     if(_boundaryPosition < _boundary.length() && _boundary.c_str()[_boundaryPosition] != data){
       _multiParseState = WAIT_FOR_RETURN1;
-      itWriteByte('\r'); itWriteByte('\n'); itWriteByte('-');  itWriteByte('-');
+      itemWriteByte('\r'); itemWriteByte('\n'); itemWriteByte('-');  itemWriteByte('-');
       uint8_t i;
       for(i=0; i<_boundaryPosition; i++)
-        itWriteByte(_boundary.c_str()[i]);
+        itemWriteByte(_boundary.c_str()[i]);
       _parseMultipartPostByte(data, last);
     } else if(_boundaryPosition == _boundary.length() - 1){
       _multiParseState = DASH3_OR_RETURN2;
-      if(!_itIsFile){
-        _addParam(new AsyncWebParameter(_itName, _itValue, true));
+      if(!_itemIsFile){
+        _addParam(new AsyncWebParameter(_itemName, _itemValue, true));
       } else {
-        if(_itSize){
+        if(_itemSize){
           //check if authenticated before calling the upload
-          if(_handler) _handler->handleUpload(this, _itFilename, _itSize - _itBufferIndex, _itBuffer, _itBufferIndex, true);
-          _itBufferIndex = 0;
-          _addParam(new AsyncWebParameter(_itName, _itFilename, true, true, _itSize));
+          if(_handler) _handler->handleUpload(this, _itemFilename, _itemSize - _itemBufferIndex, _itemBuffer, _itemBufferIndex, true);
+          _itemBufferIndex = 0;
+          _addParam(new AsyncWebParameter(_itemName, _itemFilename, true, true, _itemSize));
         }
-        free(_itBuffer);
-        _itBuffer = NULL;
+        free(_itemBuffer);
+        _itemBuffer = NULL;
       }
 
     } else {
@@ -534,19 +534,19 @@ void AsyncWebServerRequest::_parseMultipartPostByte(uint8_t data, bool last){
       _multiParseState = PARSING_FINISHED;
     } else {
       _multiParseState = WAIT_FOR_RETURN1;
-      itWriteByte('\r'); itWriteByte('\n'); itWriteByte('-');  itWriteByte('-');
-      uint8_t i; for(i=0; i<_boundary.length(); i++) itWriteByte(_boundary.c_str()[i]);
+      itemWriteByte('\r'); itemWriteByte('\n'); itemWriteByte('-');  itemWriteByte('-');
+      uint8_t i; for(i=0; i<_boundary.length(); i++) itemWriteByte(_boundary.c_str()[i]);
       _parseMultipartPostByte(data, last);
     }
   } else if(_multiParseState == EXPECT_FEED2){
     if(data == '\n'){
       _multiParseState = PARSE_HEADERS;
-      _itIsFile = false;
+      _itemIsFile = false;
     } else {
       _multiParseState = WAIT_FOR_RETURN1;
-      itWriteByte('\r'); itWriteByte('\n'); itWriteByte('-');  itWriteByte('-');
-      uint8_t i; for(i=0; i<_boundary.length(); i++) itWriteByte(_boundary.c_str()[i]);
-      itWriteByte('\r'); _parseMultipartPostByte(data, last);
+      itemWriteByte('\r'); itemWriteByte('\n'); itemWriteByte('-');  itemWriteByte('-');
+      uint8_t i; for(i=0; i<_boundary.length(); i++) itemWriteByte(_boundary.c_str()[i]);
+      itemWriteByte('\r'); _parseMultipartPostByte(data, last);
     }
   }
 }
@@ -606,15 +606,15 @@ bool AsyncWebServerRequest::hasHeader(const __FlashStringHelper * data) const {
       n += 1;
   }
   char * name = (char*) malloc(n+1);
-  name[n] = 0;
+  name[n] = 0; 
   if (name) {
     for(size_t b=0; b<n; b++)
-      name[b] = pgm_read_byte(p++);
-    bool result = hasHeader( String(name) );
-    free(name);
-    return result;
+      name[b] = pgm_read_byte(p++);    
+    bool result = hasHeader( String(name) ); 
+    free(name); 
+    return result; 
   } else {
-    return false;
+    return false; 
   }
 }
 
@@ -629,15 +629,15 @@ AsyncWebHeader* AsyncWebServerRequest::getHeader(const String& name) const {
 
 AsyncWebHeader* AsyncWebServerRequest::getHeader(const __FlashStringHelper * data) const {
   PGM_P p = reinterpret_cast<PGM_P>(data);
-  size_t n = strlen_P(p);
+  size_t n = strlen_P(p); 
   char * name = (char*) malloc(n+1);
   if (name) {
-    strcpy_P(name, p);
-    AsyncWebHeader* result = getHeader( String(name));
-    free(name);
-    return result;
+    strcpy_P(name, p); 
+    AsyncWebHeader* result = getHeader( String(name)); 
+    free(name); 
+    return result; 
   } else {
-    return nullptr;
+    return nullptr; 
   }
 }
 
@@ -664,14 +664,14 @@ bool AsyncWebServerRequest::hasParam(const __FlashStringHelper * data, bool post
   size_t n = strlen_P(p);
 
   char * name = (char*) malloc(n+1);
-  name[n] = 0;
+  name[n] = 0; 
   if (name) {
-    strcpy_P(name,p);
-    bool result = hasParam( name, post, file);
-    free(name);
-    return result;
+    strcpy_P(name,p);    
+    bool result = hasParam( name, post, file); 
+    free(name); 
+    return result; 
   } else {
-    return false;
+    return false; 
   }
 }
 
@@ -689,12 +689,12 @@ AsyncWebParameter* AsyncWebServerRequest::getParam(const __FlashStringHelper * d
   size_t n = strlen_P(p);
   char * name = (char*) malloc(n+1);
   if (name) {
-    strcpy_P(name, p);
-    AsyncWebParameter* result = getParam(name, post, file);
-    free(name);
-    return result;
+    strcpy_P(name, p);   
+    AsyncWebParameter* result = getParam(name, post, file); 
+    free(name); 
+    return result; 
   } else {
-    return nullptr;
+    return nullptr; 
   }
 }
 
@@ -872,15 +872,15 @@ bool AsyncWebServerRequest::hasArg(const char* name) const {
 
 bool AsyncWebServerRequest::hasArg(const __FlashStringHelper * data) const {
   PGM_P p = reinterpret_cast<PGM_P>(data);
-  size_t n = strlen_P(p);
+  size_t n = strlen_P(p); 
   char * name = (char*) malloc(n+1);
   if (name) {
-    strcpy_P(name, p);
-    bool result = hasArg( name );
-    free(name);
-    return result;
+    strcpy_P(name, p);    
+    bool result = hasArg( name ); 
+    free(name); 
+    return result; 
   } else {
-    return false;
+    return false; 
   }
 }
 
@@ -900,9 +900,9 @@ const String& AsyncWebServerRequest::arg(const __FlashStringHelper * data) const
   char * name = (char*) malloc(n+1);
   if (name) {
     strcpy_P(name, p);
-    const String & result = arg( String(name) );
-    free(name);
-    return result;
+    const String & result = arg( String(name) ); 
+    free(name); 
+    return result; 
   } else {
     return SharedEmptyString;
   }
@@ -929,17 +929,17 @@ const String& AsyncWebServerRequest::header(const char* name) const {
 
 const String& AsyncWebServerRequest::header(const __FlashStringHelper * data) const {
   PGM_P p = reinterpret_cast<PGM_P>(data);
-  size_t n = strlen_P(p);
+  size_t n = strlen_P(p); 
   char * name = (char*) malloc(n+1);
   if (name) {
-    strcpy_P(name, p);
-    const String & result = header( (const char *)name );
-    free(name);
-    return result;
+    strcpy_P(name, p);  
+    const String & result = header( (const char *)name ); 
+    free(name); 
+    return result; 
   } else {
-    return SharedEmptyString;
+    return SharedEmptyString; 
   }
-};
+};  
 
 
 const String& AsyncWebServerRequest::header(size_t i) const {

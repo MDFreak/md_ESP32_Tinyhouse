@@ -1048,7 +1048,11 @@
                   //usleep(50000);
                 }
             #endif // USE_WIFI
-        // start Webserer
+        // start bluetooth
+          #if (USE_BLUETOOTH)
+              initBluetooth();
+            #endif
+        // start webserer
           #if (USE_WEBSERVER > OFF)
               {
                 servT.startT();
@@ -1411,11 +1415,6 @@
             md_ADS1115_run();
           #endif
       // --- direct input ---
-        #if (USE_MD_ATSMARTHOME > OFF)
-            //STXT(" run touch ");
-            dsp.updateDisplay();
-            mdTouchEv.pollTouchScreen();
-          #endif
         #if (USE_KEYPADSHIELD > OFF)
           key = getKey();
           if (key)
@@ -1925,6 +1924,9 @@
         #if (USE_BME680_I2C)
             tmpval16 = bme680.remainingReadingMillis();
             if (tmpval16 <= 0) { bme680.endReading(); }
+          #endif
+        #if (USE_BLUETOOTH)
+            handleBluetooth();
           #endif
       // --- standard output cycle ---
         #ifdef USE_OUTPUT_CYCLE

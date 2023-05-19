@@ -3,6 +3,7 @@
 
   #include <Arduino.h>
   #include <md_defines.h>
+  #include <prj_config.h>
   #include <prj_TINYHOUSE.h>
 
   // ******************************************
@@ -71,28 +72,28 @@
         #if (USE_BME680_I2C > OFF )
             #define BME680_I2C         I2C1
           #endif
-#ifdef UNUSED
-          #if (USE_ADC1115_I2C > OFF)
-              #ifndef USE_INPUT_CYCLE
-                  #define USE_INPUT_CYCLE
+                #ifdef UNUSED
+                          #if (USE_ADC1115_I2C > OFF)
+                              #ifndef USE_INPUT_CYCLE
+                                  #define USE_INPUT_CYCLE
+                                #endif
+                              #define ADC1115_I2C          I2C1
+                              #define ADC1115_1_ADDR       I2C_ADS1115_48
+                              #define ADC1115_1_CHIDXS      4
+                              #if (USE_ADC1115_I2C > 1)
+                                  #define ADC1115_2_ADDR   I2C_ADS1115_48 //I2C_ADS1115_49
+                                  #define ADC1115_2_CHIDXs  4
+                                  #if (USE_ADC1115_I2C > 2)
+                                      #define ADC1115_3_ADDR   I2C_ADS1115_48 //I2C_ADS1115_4A
+                                      #define ADC1115_3_CHIDXs  4
+                                      #if (USE_ADC1115_I2C > 3)
+                                          #define ADC1115_4_ADDR   I2C_ADS1115_48 //I2C_ADS1115_4B
+                                          #define ADC1115_4_CHIDXs  4
+                                        #endif
+                                    #endif
+                                #endif
+                            #endif
                 #endif
-              #define ADC1115_I2C          I2C1
-              #define ADC1115_1_ADDR       I2C_ADS1115_48
-              #define ADC1115_1_CHIDXS      4
-              #if (USE_ADC1115_I2C > 1)
-                  #define ADC1115_2_ADDR   I2C_ADS1115_48 //I2C_ADS1115_49
-                  #define ADC1115_2_CHIDXs  4
-                  #if (USE_ADC1115_I2C > 2)
-                      #define ADC1115_3_ADDR   I2C_ADS1115_48 //I2C_ADS1115_4A
-                      #define ADC1115_3_CHIDXs  4
-                      #if (USE_ADC1115_I2C > 3)
-                          #define ADC1115_4_ADDR   I2C_ADS1115_48 //I2C_ADS1115_4B
-                          #define ADC1115_4_CHIDXs  4
-                        #endif
-                    #endif
-                #endif
-            #endif
-#endif
     // --- network
       // --- WIFI
         #if (USE_WIFI > OFF)
@@ -123,7 +124,7 @@
             #define WIFI_ANZ_LOCIP  WIFI_ANZ_LOGIN
             //#if   !(BOARD ^ MC_ESP32_Node)
             #if (PROJECT == ESP32_TINYHOUSE)
-                #if   (PROJ_BRANCH == BRANCH_VAL_1)
+                #if (PROJ_BRANCH == BRANCH_VAL_1)
                     // Router Bauwagen 192.168.0.1
                       #define WIFI_FIXIP0     0x1800A8C0ul // 192.168.0.24   lowest first
                       #define WIFI_SSID0      "MAMD-mobil"   // Bauwagen
@@ -203,6 +204,16 @@
                 #define WIFI_SUBNET       0x00FFFFFFul // 255.255.255.0
               #endif
           #endif
+      // --- bluetooth
+        #if (USE_BLUETOOTH > OFF)
+            #if (USE_BLUETTI_AC300)
+                // The remote Bluetti service we wish to connect to.
+                #define BLUETTI_UUID_SERVICE  "0000ff00-0000-1000-8000-00805f9b34fb"
+                // The characteristics of Bluetti Devices
+                #define BLUETTI_UUID_WRITE    "0000ff02-0000-1000-8000-00805f9b34fb"
+                #define BLUETTI_UUID_NOTIFY   "0000ff01-0000-1000-8000-00805f9b34fb"
+              #endif
+          #endif
       // --- webserver
         #if (USE_WEBSERVER > OFF)
             #define WEBSERVER_CYCLE       1000ul  // Intervallzeit [us]
@@ -218,7 +229,7 @@
             #define MQTT_TOPIC_MAXLEN     20
             #define MQTT_PAYLOAD_MAXLEN   20
             #define MQTT_MSG_MAXANZ       10
-            typedef struct MQTT_MSG
+            typedef struct // MQTT_MSG
               {
                 char  topic[MQTT_TOPIC_MAXLEN];
                 char  payload[MQTT_PAYLOAD_MAXLEN];
@@ -1164,56 +1175,6 @@
               #ifndef USE_INPUT_CYCLE
                   #define USE_INPUT_CYCLE
                 #endif
-            #endif
-        #endif
-      #if (USE_VCC_ANA > OFF)
-          #define VCC_FILT                0
-          #define VCC_DROP                1
-          #if (USE_VCC50_ANA > OFF)
-              #define VCC50_ADC           OFF
-              #define VCC50_1115          ON
-              #if (VCC50_ADC > OFF)
-                  #define VCC50_ADC_ATT       ADC_ATTEN_DB_11
-                  #define VCC50_SCAL          OFF
-                  #define VCC50_SCAL_OFFRAW   0
-                  #define VCC50_SCAL_GAIN     1
-                  #define VCC50_SCAL_OFFREAL  0
-                #endif
-              #if (VCC50_1115 > OFF)
-                  #define VCC_1115_UNIDX     0
-                  #define VCC50_1115_CHIDX   2    //
-                  #define ADS13_GAIN        GAIN_TWOTHIRDS
-                  #define ADS13_RATE        RATE_ADS1115_128SPS
-                  #define ADS13_MUX         ADS1X15_MUX_SINGLE
-                  #define VCC50_SCAL        ON
-                  #define VCC50_OFFRAW      0
-                  #define VCC50_GAIN        2
-                  #define VCC50_OFFREAL     0
-                #endif
-              #if (USE_MQTT > OFF)
-                  #define MQTT_VCC50        "vcc50"
-                #endif
-            #endif
-          #if (USE_VCC33_ANA > OFF)
-              #define VCC33_ADC         OFF
-              #define VCC33_1115        ON
-              #if (VCC33_1115 > OFF)
-                  #define VCC33_1115_UNIDX   0
-                  #define VCC33_1115_CHIDX   3    //
-                  #define ADS11_GAIN        GAIN_TWOTHIRDS
-                  #define ADS11_RATE        RATE_ADS1115_128SPS
-                  #define ADS11_MUX         ADS1X15_MUX_SINGLE
-                  #define VCC33_SCAL        OFF
-                  #define VCC33_OFFRAW      0
-                  #define VCC33_GAIN        1
-                  #define VCC33_OFFREAL     0
-                #endif
-              #if (USE_MQTT > OFF)
-                  #define MQTT_VCC33          "vcc33"
-                #endif
-            #endif
-          #ifndef USE_INPUT_CYCLE
-              #define USE_INPUT_CYCLE
             #endif
         #endif
         #if (USE_POTI_ANA > OFF)

@@ -27,14 +27,16 @@
               #include <prj_conf_tinyval_2.h>
             #endif
           #if (PROJ_BRANCH == BRANCH_BLUETTI)
-              hallo
-              #include <prj_conf_tinybluetti.h>
+              //#include <prj_conf_tinybluetti.h>
+              #if (USE_BLUETOOTH)
+                  #include <md_BTooth.h>
+                #endif
             #endif
           #if (PROJ_BRANCH == BRANCH_TOUCH)
               #include <prj_conf_tinytouch.h>
             #endif
-          //#include <prj_conf_esp32_test2.h>
         #endif
+          //#include <prj_conf_esp32_test2.h>
       #if (PROJECT == ESP32_TEST2)
           #include <Adafruit_GFX.h> //Grafik Bibliothek
           #include <Adafruit_ILI9341.h> // Display Treiber

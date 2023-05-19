@@ -1,5 +1,5 @@
-#ifndef _PRJ_ESP32_TEST2_H_
-  #define _PRJ_ESP32_TEST2_H_
+#ifndef _PRJ_TINYHOUSE_H_
+  #define _PRJ_TINYHOUSE_H_
 
   #include <Arduino.h>
   #include <md_defines.h>
@@ -22,11 +22,11 @@
       #define DEV_HSPI                OFF
       #define DEV_PWM_OUTPUT          OFF
       #define DEV_ADC_INT             OFF
-      //#define DEV_ADC_ADS1115       1
-      //#define DEV_ADC_ADS1115_1     4
-      //#define DEV_ADC_ADS1115_2     OFF
-      //#define DEV_ADC_ADS1115_3     OFF
-      //#define DEV_ADC_ADS1115_4     OFF
+    // --- user devices
+      #define USE_DEV_BLUETTI         1
+      #if (USE_DEV_BLUETTI > OFF)
+          #define USE_BLUETTI_AC300   ON
+        #endif
     // --- user output components
       #define USE_WS2812_PWR_IN_SW    OFF                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         // some time matrix and line not allowed
       // --- displays
@@ -78,7 +78,7 @@
       #define USE_ADC1115_I2C         OFF // ADC 4 channels 16Bit
     // --- network  components
       #define USE_WIFI                ON  // ON
-      //#define USE_ATWIFI              OFF  // ON
+      #define USE_BLUETOOTH           ON  // ON
       #define USE_NTP_SERVER          ON  // ON
       #define USE_LOCAL_IP            ON  // ON
       #define USE_WEBSERVER           OFF  // ON
@@ -114,3 +114,4 @@
             #define TOUCHSCREEN1     TOUCHXPT2046_AZ_3V3
             //#define TOUCHKEYS1       KEYS_TOUCHXPT2046_AZ_3V3
           #endif // USE_TOUCHSCREEN
+#endif // _PRJ_TINYHOUSE_H_

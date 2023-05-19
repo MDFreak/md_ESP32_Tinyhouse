@@ -4,7 +4,6 @@
   #include <Arduino.h>
   #include <md_defines.h>
   #include <project.h>
-
   // ******************************************
     // --- test features --------------------------------
       #define TEST_SOCKET_SERVER    OFF
@@ -17,7 +16,6 @@
       #define USE_SWCTRL_FAN        OFF
       #define USE_SWCTRL_1812       OFF
   // ******************************************
-
     #if (PROJECT == ESP32_TINYHOUSE)
         // project branches for different elements
           #define BRANCH_VAL_1      1
@@ -25,7 +23,7 @@
           #define BRANCH_BLUETTI    3
           #define BRANCH_TOUCH      4
         // switch branch
-          #define PROJ_BRANCH         BRANCH_Bluetti
+          #define PROJ_BRANCH         BRANCH_BLUETTI
             // #define PROJ_BRANCH         BRANCH_VAL_2
             // #define PROJ_BRANCH         BRANCH_BLUETTI
             // #define PROJ_BRANCH         BRANCH_TOUCH
@@ -34,7 +32,7 @@
           #elif (PROJ_BRANCH == BRANCH_VAL_2)
               #include <prj_conf_tinyval_2.h>
           #elif (PROJ_BRANCH == BRANCH_BLUETTI)
-              #include <prj_conf_tinybluetti.h>
+              //#include <prj_conf_tinybluetti.h>
           #elif (PROJ_BRANCH == BRANCH_TOUCH)
               #include <prj_conf_tinytouch.h>
             #endif

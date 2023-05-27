@@ -32,9 +32,9 @@
       // --- displays
         #define USE_DISP              1
           // OLEDs
-            #define USE_OLED_I2C      OFF
+            #define USE_OLED_I2C      1
           // TFTs
-            #define USE_TFT           1
+            #define USE_TFT           OFF
               // MC_UO_TFT1602_GPIO_RO, MC_UO_TOUCHXPT2046_AZ_UNO, MC_UO_TXPT2046_AZ_SPI
               // MC_UO_TFT1602_I2C_XA,  MC_UO_Keypad_ANA0_RO
       // buzzer

@@ -3231,12 +3231,12 @@ uint32_t Adafruit_NeoPixel::ColorHSV(uint16_t hue, uint8_t sat, uint8_t val) {
   // So you'd think that the color "hexcone" (the thing that ramps from
   // pure red, to pure yellow, to pure green and so forth back to red,
   // yielding six slices), and with each color component having 256
-  // possible values (0-255), might have 1536 possible its (6*256),
+  // possible values (0-255), might have 1536 possible items (6*256),
   // but in reality there's 1530. This is because the last element in
   // each 256-element slice is equal to the first element of the next
   // slice, and keeping those in there this would create small
   // discontinuities in the color wheel. So the last element of each
-  // slice is dropped...we regard only elements 0-254, with it 255
+  // slice is dropped...we regard only elements 0-254, with item 255
   // being picked up as element 0 of the next slice. Like this:
   // Red to not-quite-pure-yellow is:        255,   0, 0 to 255, 254,   0
   // Pure yellow to not-quite-pure-green is: 255, 255, 0 to   1, 255,   0
@@ -3471,4 +3471,4 @@ neoPixelType Adafruit_NeoPixel::str2order(const char *v) {
   }
   if (w < 0) w = r; // If 'w' not specified, duplicate r bits
   return (w << 6) | (r << 4) | ((g & 3) << 2) | (b & 3);
-}
+} 

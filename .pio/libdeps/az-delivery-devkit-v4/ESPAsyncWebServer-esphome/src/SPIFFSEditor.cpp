@@ -270,7 +270,7 @@ const uint8_t edit_htm_gz[] PROGMEM = {
 const char *excludeListFile = "/.exclude.files";
 
 typedef struct ExcludeListS {
-    char *it;
+    char *item;
     ExcludeListS *next;
 } ExcludeList;
 
@@ -288,18 +288,18 @@ static bool matchWild(const char *pattern, const char *testee) {
       nxPat=pattern++; nxTst=testee;
       continue;
     }
-    if (nxPat){
+    if (nxPat){ 
       pattern = nxPat+1; testee=++nxTst;
       continue;
     }
     return false;
   }
-  while (*pattern=='*'){pattern++;}
+  while (*pattern=='*'){pattern++;}  
   return (*pattern == 0);
 }
 
-static bool addExclude(const char *it){
-    size_t len = strlen(it);
+static bool addExclude(const char *item){
+    size_t len = strlen(item);
     if(!len){
         return false;
     }
@@ -307,12 +307,12 @@ static bool addExclude(const char *it){
     if(!e){
         return false;
     }
-    e->it = (char *)malloc(len+1);
-    if(!e->it){
+    e->item = (char *)malloc(len+1);
+    if(!e->item){
         free(e);
         return false;
     }
-    memcpy(e->it, it, len+1);
+    memcpy(e->item, item, len+1);
     e->next = excludes;
     excludes = e;
     return true;
@@ -366,7 +366,7 @@ static bool isExcluded(fs::FS &_fs, const char *filename) {
   }
   ExcludeList *e = excludes;
   while(e){
-    if (matchWild(e->it, filename)){
+    if (matchWild(e->item, filename)){
       return true;
     }
     e = e->next;

@@ -244,7 +244,7 @@ void IRsend::sendNECRaw(uint32_t aRawData, uint_fast8_t aNumberOfRepeats, bool a
 }
 
 //+=============================================================================
-// NEC1 has a repeat only 4 its long
+// NEC1 has a repeat only 4 items long
 //
 /*
  * First check for right data length
